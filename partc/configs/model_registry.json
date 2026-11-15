@@ -1,0 +1,181 @@
+{
+  "compliance": {
+    "providers_allowed": ["deepseek", "qwen"],
+    "release_date_cutoff": "2026-10-21",
+    "budget_per_task_rmb": "20",
+    "pricing_reference_date": "2026-10-21",
+    "pricing_policy": "Official standard API prices only. Course rules exclude cache-hit discounts, platform promotions and free credits. Where official prices are tiered, the conservative (higher, or peak-hour / larger-context) tier is used. Where the official price has not been verified, the model is marked verified=false and is NOT enabled in formal billed mode (fail-closed)."
+  },
+  "models": [
+    {
+      "provider": "deepseek",
+      "requested_model_id": "deepseek-v4.1-flash-1017",
+      "aliases": ["deepseek-flash", "deepseek-v4-flash", "deepseek-v4-flash-vision-exp"],
+      "underlying_model_version": "DeepSeek-V4.1-Flash-1017",
+      "official_release_date": "2026-10-17",
+      "release_date_confirmed": true,
+      "official_release_source": "https://api-docs.deepseek.com/quick_start/pricing/ (version id 'DeepSeek-V4.1-Flash-1017'); version suffix '1017'",
+      "pricing_source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+      "pricing_reference_date": "2026-10-21",
+      "pricing": {
+        "currency": "CNY",
+        "unit": "per_1m_tokens",
+        "input_per_1m_tokens": "2.0",
+        "output_per_1m_tokens": "8.0",
+        "billing_mode": "peak",
+        "notes": "Peak-hour (conservative) rate. Input billed at cache-miss rate; cache-hit discount (off-peak 0.02 / peak 0.04 per 1M) is excluded per course rules. Off-peak rates are half of peak."
+      },
+      "verified": true,
+      "allowed": true,
+      "notes": "Default candidate model. Lightweight agentic model with vision; fits the RMB 20 budget comfortably."
+    },
+    {
+      "provider": "deepseek",
+      "requested_model_id": "deepseek-v4-pro-0813",
+      "aliases": ["deepseek-v4-pro", "deepseek-v4-pro-0813"],
+      "underlying_model_version": "DeepSeek-V4-Pro-0813",
+      "official_release_date": "2026-08-13",
+      "release_date_confirmed": false,
+      "official_release_source": "https://api-docs.deepseek.com/quick_start/pricing/ (version id 'DeepSeek-V4-Pro-0813'); release date inferred from '0813' suffix",
+      "pricing_source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+      "pricing_reference_date": "2026-10-21",
+      "pricing": {
+        "currency": "CNY",
+        "unit": "per_1m_tokens",
+        "input_per_1m_tokens": "9.0",
+        "output_per_1m_tokens": "27.0",
+        "billing_mode": "peak",
+        "notes": "Peak-hour (conservative) rate; input billed at cache-miss rate. Off-peak rates are half of peak."
+      },
+      "verified": true,
+      "allowed": false,
+      "notes": "Candidate only: pricing is verified but the exact release date is inferred from the '0813' suffix and not independently confirmed, so the model is not enabled in formal billed mode."
+    },
+    {
+      "provider": "qwen",
+      "requested_model_id": "qwen3.7-plus-2026-05-26",
+      "aliases": ["qwen3.7-plus"],
+      "underlying_model_version": "Qwen3.7-Plus (2026-05-26)",
+      "official_release_date": "2026-05-26",
+      "release_date_confirmed": true,
+      "official_release_source": "https://help.aliyun.com/zh/model-studio/model-pricing (version string 'qwen3.7-plus-2026-05-26')",
+      "pricing_source": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "pricing_reference_date": "2026-10-21",
+      "pricing": {
+        "currency": "CNY",
+        "unit": "per_1m_tokens",
+        "input_per_1m_tokens": "2.0",
+        "output_per_1m_tokens": "8.0",
+        "billing_mode": "context_tier_le_256k",
+        "tiers": [
+          {"label": "<=256K", "max_input_tokens": 256000, "input_per_1m_tokens": "2.0", "output_per_1m_tokens": "8.0"},
+          {"label": "<=1M", "max_input_tokens": 1000000, "input_per_1m_tokens": "6.0", "output_per_1m_tokens": "24.0"}
+        ],
+        "notes": "Tiered by context length. Non-thinking output 8, thinking output 8 at <=256K; <=1M tier is input 6 / output 24."
+      },
+      "verified": true,
+      "allowed": true,
+      "notes": "Recommended Qwen model for code generation / agent decisions: versioned id, moderate price, strong reasoning."
+    },
+    {
+      "provider": "qwen",
+      "requested_model_id": "qwen3.7-flash-2026-07-15",
+      "aliases": ["qwen3.7-flash"],
+      "underlying_model_version": "Qwen3.7-Flash (2026-07-15)",
+      "official_release_date": "2026-07-15",
+      "release_date_confirmed": true,
+      "official_release_source": "https://help.aliyun.com/zh/model-studio/model-pricing (version string 'qwen3.7-flash-2026-07-15')",
+      "pricing_source": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "pricing_reference_date": "2026-10-21",
+      "pricing": {
+        "currency": "CNY",
+        "unit": "per_1m_tokens",
+        "input_per_1m_tokens": "1.2",
+        "output_per_1m_tokens": "4.8",
+        "billing_mode": "context_tier",
+        "tiers": [
+          {"label": "<=32K", "max_input_tokens": 32000, "input_per_1m_tokens": "0.2", "output_per_1m_tokens": "0.8"},
+          {"label": "<=256K", "max_input_tokens": 256000, "input_per_1m_tokens": "0.6", "output_per_1m_tokens": "2.4"},
+          {"label": "<=1M", "max_input_tokens": 1000000, "input_per_1m_tokens": "1.2", "output_per_1m_tokens": "4.8"}
+        ],
+        "notes": "Tiered by context length (single output price includes thinking)."
+      },
+      "verified": true,
+      "allowed": true,
+      "notes": "Cheapest versioned Qwen option; suitable as a fast/cheap agent worker."
+    },
+    {
+      "provider": "qwen",
+      "requested_model_id": "qwen3.6-plus-2026-04-02",
+      "aliases": ["qwen3.6-plus"],
+      "underlying_model_version": "Qwen3.6-Plus (2026-04-02)",
+      "official_release_date": "2026-04-02",
+      "release_date_confirmed": true,
+      "official_release_source": "https://help.aliyun.com/zh/model-studio/model-pricing (version string 'qwen3.6-plus-2026-04-02')",
+      "pricing_source": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "pricing_reference_date": "2026-10-21",
+      "pricing": {
+        "currency": "CNY",
+        "unit": "per_1m_tokens",
+        "input_per_1m_tokens": "2.0",
+        "output_per_1m_tokens": "12.0",
+        "billing_mode": "context_tier_le_256k",
+        "tiers": [
+          {"label": "<=256K", "max_input_tokens": 256000, "input_per_1m_tokens": "2.0", "output_per_1m_tokens": "12.0"},
+          {"label": "<=1M", "max_input_tokens": 1000000, "input_per_1m_tokens": "8.0", "output_per_1m_tokens": "48.0"}
+        ],
+        "notes": "Tiered by context length (non-thinking output 12, thinking output 12 at <=256K)."
+      },
+      "verified": true,
+      "allowed": true,
+      "notes": "Alternative versioned Qwen option."
+    },
+    {
+      "provider": "qwen",
+      "requested_model_id": "qwen3.8-flash",
+      "aliases": ["qwen3.8-flash"],
+      "underlying_model_version": "Qwen3.8-Flash",
+      "official_release_date": "2026-08",
+      "release_date_confirmed": false,
+      "official_release_source": "help.aliyun.com model-pricing (family 'qwen3.8'); exact release day unconfirmed",
+      "pricing_source": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "pricing_reference_date": "2026-10-21",
+      "pricing": {
+        "currency": "CNY",
+        "unit": "per_1m_tokens",
+        "input_per_1m_tokens": "0.8",
+        "output_per_1m_tokens": "2.7",
+        "billing_mode": "context_tier_le_1m",
+        "tiers": [
+          {"label": "<=1M", "max_input_tokens": 1000000, "input_per_1m_tokens": "0.8", "output_per_1m_tokens": "2.7"}
+        ],
+        "notes": "<=1M tier; single output price combining thinking + answer."
+      },
+      "verified": false,
+      "allowed": false,
+      "notes": "Candidate only: pricing is known but the exact release date of the 'flash' variant is unconfirmed, so it is not enabled in formal billed mode."
+    },
+    {
+      "provider": "qwen",
+      "requested_model_id": "qwen4-max-preview",
+      "aliases": ["qwen4-max"],
+      "underlying_model_version": "Qwen4-Max (preview)",
+      "official_release_date": "2026-11-11",
+      "release_date_confirmed": true,
+      "official_release_source": "Alibaba Cloud announcement (Qwen4-Max preview, 2026-11-11)",
+      "pricing_source": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "pricing_reference_date": "2026-10-21",
+      "pricing": {
+        "currency": "CNY",
+        "unit": "per_1m_tokens",
+        "input_per_1m_tokens": null,
+        "output_per_1m_tokens": null,
+        "billing_mode": "not_applicable",
+        "notes": "Released after the 2026-10-21 cutoff; excluded from compliance regardless of pricing."
+      },
+      "verified": false,
+      "allowed": false,
+      "notes": "NON-COMPLIANT example: released 2026-11-11 (after cutoff) and offered as a preview/subscription, not standard per-token API pricing."
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+# Secrets — never commit
+.env
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.coverage
+.mypy_cache/
+.ruff_cache/
+
+# Part C runtime state and logs (contain cost/usage data, not secrets)
+logs/
+.partc_state/
+
+# macOS
+.DS_Store
