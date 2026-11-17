@@ -1,0 +1,38 @@
+{
+  "status": "success",
+  "synthetic_data_only": true,
+  "live_llm_calls": 0,
+  "versions": {
+    "python": "3.12.4",
+    "numpy": "1.26.4",
+    "scikit-learn": "1.4.2",
+    "joblib": "1.4.2"
+  },
+  "metrics": {
+    "accuracy": 0.8833333333333333,
+    "f1_macro": 0.883300916921367,
+    "balanced_accuracy": 0.8833333333333333,
+    "roc_auc": 0.9633333333333334,
+    "log_loss": 0.2383860758395559
+  },
+  "independently_recomputed_accuracy": 0.8833333333333333,
+  "n_predictions": 30,
+  "reload_prediction_match": true,
+  "reload_probability_match": true,
+  "direct_and_c_prediction_match": true,
+  "c_train_status": "success",
+  "c_predict_status": "success",
+  "c_expected_failure_status": "runtime_error",
+  "c_expected_failure_exit_code": 2,
+  "c_executor_sha256": "0f7409c77e984a4c3e17a2db218d6d72f122eb1a09f61a6576aa17d192603b3e",
+  "c_executor_reference_commit": "877625a2216d2a6bd5410e860ccf8006baea5748",
+  "c_executor_matches_reference_sha256": true,
+  "partd_source_sha256": "e1a3a9f49d3c13f5fc48db7df80a11fb821552d222902d384a78b9d2db0dce71",
+  "independent_subprocesses": 6,
+  "pending": [
+    "real A/B integration",
+    "official task data/metrics/output format",
+    "C Windows timeout cleanup"
+  ],
+  "publication_note": "Machine-local artifact path omitted. Only the portable legacy prediction fixture is committed."
+}

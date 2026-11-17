@@ -1,0 +1,75 @@
+{
+  "status": "success",
+  "partd_version": "0.2.0",
+  "partd_source_sha256": "02faffd46aac7a6a3cce21249627d8a660b45de5c76392d9bb8b73151fb0b170",
+  "versions": {
+    "python": "3.12.4",
+    "numpy": "1.26.4",
+    "scikit-learn": "1.4.2",
+    "joblib": "1.4.2",
+    "pandas": "2.2.2",
+    "scipy": "1.13.1",
+    "Pillow": "10.3.0"
+  },
+  "synthetic_data_only": true,
+  "live_llm_calls": 0,
+  "course_test_files_accessed": false,
+  "independent_subprocesses": 14,
+  "records": [
+    {
+      "modality": "tabular",
+      "status": "success",
+      "metrics": {
+        "accuracy": 1.0,
+        "f1_macro": 1.0,
+        "roc_auc": 1.0,
+        "log_loss": 0.0449846208954161
+      },
+      "n_train": 120,
+      "n_validation": 40,
+      "n_predictions": 20,
+      "sparse_features": true,
+      "raw_input_prediction": true,
+      "reload_labels_and_probabilities_match": true,
+      "direct_and_c_match": true,
+      "prediction_without_training_or_validation_files": true,
+      "c_train_status": "success",
+      "c_predict_status": "success",
+      "c_expected_error_status": "runtime_error",
+      "c_expected_error_exit_code": 2,
+      "b_source_sha256": "0dad32bb325c4d26aedf44d61643acf37724ac75f1fdb3833f0f55280548d160",
+      "c_executor_sha256": "0f7409c77e984a4c3e17a2db218d6d72f122eb1a09f61a6576aa17d192603b3e"
+    },
+    {
+      "modality": "text",
+      "status": "success",
+      "metrics": {
+        "accuracy": 1.0,
+        "f1_macro": 1.0,
+        "roc_auc": 1.0,
+        "log_loss": 0.0194775470491418
+      },
+      "n_train": 120,
+      "n_validation": 40,
+      "n_predictions": 20,
+      "sparse_features": true,
+      "raw_input_prediction": true,
+      "reload_labels_and_probabilities_match": true,
+      "direct_and_c_match": true,
+      "prediction_without_training_or_validation_files": true,
+      "c_train_status": "success",
+      "c_predict_status": "success",
+      "c_expected_error_status": "runtime_error",
+      "c_expected_error_exit_code": 2,
+      "b_source_sha256": "0dad32bb325c4d26aedf44d61643acf37724ac75f1fdb3833f0f55280548d160",
+      "c_executor_sha256": "0f7409c77e984a4c3e17a2db218d6d72f122eb1a09f61a6576aa17d192603b3e"
+    }
+  ],
+  "pending": [
+    "A main-loop integration on 2026-11-19",
+    "B/A cross-review",
+    "official task runs",
+    "C Windows timeout cleanup"
+  ],
+  "publication_note": "Machine-local artifact paths omitted. Regenerate complete models and logs with examples/bdc_acceptance.py."
+}
