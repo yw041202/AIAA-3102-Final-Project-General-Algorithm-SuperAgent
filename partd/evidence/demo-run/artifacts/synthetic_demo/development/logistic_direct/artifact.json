@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "task_id": "synthetic_demo",
+  "run_id": "development",
+  "experiment_id": "logistic_direct",
+  "features": [
+    "feature_0",
+    "feature_1",
+    "feature_2",
+    "feature_3",
+    "feature_4",
+    "feature_5"
+  ],
+  "classes": [
+    "negative",
+    "positive"
+  ],
+  "target_column": "label",
+  "id_column": "sample_id",
+  "seed": 42,
+  "preprocessing": "numeric",
+  "model": {
+    "name": "logistic_regression",
+    "params": {
+      "C": 1.0
+    }
+  },
+  "created_at": "2026-11-15T09:21:52.815126+00:00",
+  "partd_version": "0.1.0",
+  "partd_source_sha256": "e1a3a9f49d3c13f5fc48db7df80a11fb821552d222902d384a78b9d2db0dce71",
+  "data": {
+    "train_sha256": "9ed141e3133c0dbd51717157d142f18b31599df8bb114d268151d84710696d26",
+    "validation_sha256": "3060906c21b522e0858e44b61d34ef4d49de41d3aed33f41c620945d42015bf3",
+    "n_train": 180,
+    "n_validation": 60
+  },
+  "versions": {
+    "python": "3.12.4",
+    "numpy": "1.26.4",
+    "scikit-learn": "1.4.2",
+    "joblib": "1.4.2"
+  },
+  "model_file": "model.joblib",
+  "model_sha256": "c90908abdf48391671dcf092cb8cefa5efecc109e828266f4bb995e3d34c0585"
+}
