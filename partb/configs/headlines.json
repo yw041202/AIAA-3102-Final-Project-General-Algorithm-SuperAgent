@@ -1,0 +1,13 @@
+{
+  "modality": "text",
+  "format": "csv",
+  "feature_columns": ["headline_A", "headline_B"],
+  "label_column": "label_pairwise",
+  "allowed_labels": [0, 1],
+  "metric": "accuracy",
+  "splits": {
+    "train": {"path": "train.csv"},
+    "val": {"path": "val.csv"},
+    "test": {"path": "test.csv"}
+  }
+}

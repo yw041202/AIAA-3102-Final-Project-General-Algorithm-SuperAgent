@@ -1,0 +1,14 @@
+{
+  "modality": "image",
+  "format": "image_csv",
+  "feature_columns": ["image_path"],
+  "label_column": "label",
+  "id_column": "sample_id",
+  "image_root": ".",
+  "metric": "accuracy",
+  "splits": {
+    "train": {"path": "train.csv"},
+    "val": {"path": "val.csv"},
+    "test": {"path": "test.csv"}
+  }
+}
