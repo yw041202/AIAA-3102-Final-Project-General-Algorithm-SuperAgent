@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "task_id": "synthetic_demo",
+  "run_id": "development",
+  "experiment_id": "logistic_via_c",
+  "data": {
+    "train_csv": "train.csv",
+    "validation_csv": "validation.csv",
+    "id_column": "sample_id",
+    "target_column": "label"
+  },
+  "model": {
+    "name": "logistic_regression",
+    "params": {
+      "C": 1.0
+    }
+  },
+  "preprocessing": "numeric",
+  "seed": 42,
+  "metrics": {
+    "primary": "accuracy",
+    "additional": [
+      "f1_macro",
+      "balanced_accuracy",
+      "roc_auc",
+      "log_loss"
+    ]
+  },
+  "output_dir": "artifacts"
+}

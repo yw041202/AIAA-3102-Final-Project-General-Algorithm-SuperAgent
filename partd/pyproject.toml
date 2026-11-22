@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "superagent-partd"
+version = "0.2.0"
+description = "Configurable classification training, validation, persistence and prediction tools"
+requires-python = ">=3.10,<3.13"
+dependencies = ["numpy>=1.26,<2", "scikit-learn==1.4.2", "joblib>=1.4,<1.5"]
+
+[project.optional-dependencies]
+test = ["pytest>=7,<9"]
+partb = ["pandas>=2,<4", "scipy>=1.11,<2", "Pillow>=10,<13"]
+
+[project.scripts]
+partd = "partd.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
