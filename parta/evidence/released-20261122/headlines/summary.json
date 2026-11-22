@@ -1,0 +1,261 @@
+{
+  "status": "success",
+  "task_id": "headlines",
+  "run_id": "live_001",
+  "offline": false,
+  "official_result": false,
+  "source_sha256": "98a391de36c6a588a1b5a31f561ae029ce94ced830c72e772c23f308eac5494d",
+  "run_directory": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\headlines\\live_001",
+  "stop_reason": "patience",
+  "history": [
+    {
+      "experiment_id": "experiment_001",
+      "status": "error",
+      "error": "Unsupported preprocessing fields"
+    },
+    {
+      "experiment_id": "experiment_002",
+      "status": "success",
+      "decision": {
+        "action": "experiment",
+        "reason": "Previous run failed only due to unsupported preprocessing fields, so start with a valid text baseline. Headline pairs are best compared via character n-gram TF-IDF difference on the two columns to capture wording variation; logistic regression is a solid first baseline for text classification.",
+        "model": {
+          "name": "logistic_regression",
+          "params": {
+            "C": 1.0,
+            "max_iter": 1000
+          }
+        },
+        "preprocess_options": {
+          "analyzer": "char",
+          "ngram_range": [
+            1,
+            2
+          ],
+          "max_features": 50000,
+          "min_df": 2,
+          "lowercase": true,
+          "combine": "difference"
+        }
+      },
+      "metric": {
+        "name": "accuracy",
+        "direction": "maximize",
+        "value": 0.6382978723404256
+      }
+    },
+    {
+      "experiment_id": "experiment_003",
+      "status": "success",
+      "decision": {
+        "action": "experiment",
+        "reason": "Baseline char-difference TF-IDF scored 0.638, modestly above majority (0.512). The task appears to require detecting subtle semantic/wording contrasts between paired headlines, which char n-grams on the difference capture only weakly. Trying word-level n-grams on the difference signal (capturing shared-meaning vs. changed-word edits) as a complementary baseline; logistic regression with slightly stronger regularization.",
+        "model": {
+          "name": "logistic_regression",
+          "params": {
+            "C": 2.0,
+            "max_iter": 1000
+          }
+        },
+        "preprocess_options": {
+          "analyzer": "word",
+          "ngram_range": [
+            1,
+            2
+          ],
+          "max_features": 50000,
+          "min_df": 2,
+          "lowercase": true,
+          "combine": "difference"
+        }
+      },
+      "metric": {
+        "name": "accuracy",
+        "direction": "maximize",
+        "value": 0.6787234042553192
+      }
+    },
+    {
+      "experiment_id": "experiment_004",
+      "status": "success",
+      "decision": {
+        "action": "experiment",
+        "reason": "Word-level difference TF-IDF reached 0.679 vs 0.638 for char n-grams, indicating word features on the pair difference are informative. The difference-only view discards shared context that may matter for detecting subtle semantic contradictions. Combining both columns (concat) as word n-grams gives the model full-pair signal while n-grams still capture the edit patterns; using class_weight balanced is unnecessary since labels are near-even, so keep logistic regression with moderate regularization.",
+        "model": {
+          "name": "logistic_regression",
+          "params": {
+            "C": 1.0,
+            "max_iter": 1000,
+            "solver": "liblinear"
+          }
+        },
+        "preprocess_options": {
+          "analyzer": "word",
+          "ngram_range": [
+            1,
+            2
+          ],
+          "max_features": 50000,
+          "min_df": 2,
+          "lowercase": true,
+          "combine": "concat"
+        }
+      },
+      "metric": {
+        "name": "accuracy",
+        "direction": "maximize",
+        "value": 0.6585106382978724
+      }
+    },
+    {
+      "experiment_id": "experiment_005",
+      "status": "success",
+      "decision": {
+        "action": "experiment",
+        "reason": "Best result so far is word n-grams on the difference (0.679); concat was worse (0.659), confirming difference signal is key. Adding character n-grams alongside word n-grams on the difference could capture morphological/subword cues missed by word-only features. Keep logistic regression and increase C slightly to exploit richer feature space.",
+        "model": {
+          "name": "logistic_regression",
+          "params": {
+            "C": 2.0,
+            "max_iter": 1000
+          }
+        },
+        "preprocess_options": {
+          "analyzer": "char",
+          "ngram_range": [
+            1,
+            2
+          ],
+          "max_features": 30000,
+          "min_df": 2,
+          "lowercase": true,
+          "combine": "difference"
+        }
+      },
+      "metric": {
+        "name": "accuracy",
+        "direction": "maximize",
+        "value": 0.6446808510638298
+      }
+    },
+    {
+      "experiment_id": "experiment_006",
+      "status": "success",
+      "decision": {
+        "action": "experiment",
+        "reason": "Word-level difference TF-IDF with logistic regression remains the clear best (0.679); char n-grams (0.638/0.645) and concat (0.659) both trail, confirming the pair-difference word signal is the key feature. With only one step left, refine this winning configuration: a nonlinear random forest on the same word-difference features can capture interactions among edit tokens and word n-grams that a linear model misses, often improving over LR on this kind of contrast classification task.",
+        "model": {
+          "name": "random_forest",
+          "params": {
+            "n_estimators": 300,
+            "max_depth": 40,
+            "min_samples_leaf": 1,
+            "max_features": "sqrt",
+            "class_weight": null,
+            "n_jobs": -1
+          }
+        },
+        "preprocess_options": {
+          "analyzer": "word",
+          "ngram_range": [
+            1,
+            2
+          ],
+          "max_features": 50000,
+          "min_df": 2,
+          "lowercase": true,
+          "combine": "difference"
+        }
+      },
+      "metric": {
+        "name": "accuracy",
+        "direction": "maximize",
+        "value": 0.5968085106382979
+      }
+    }
+  ],
+  "budget": {
+    "task_id": "headlines",
+    "budget_rmb": "20",
+    "spent_rmb": "0.009767",
+    "held_reserved_rmb": "0",
+    "available_rmb": "19.990233",
+    "calls": 6,
+    "settled": 6,
+    "uncertain": 0,
+    "errors": 0,
+    "over_budget": false
+  },
+  "selected": {
+    "experiment_id": "experiment_003",
+    "status": "success",
+    "decision": {
+      "action": "experiment",
+      "reason": "Baseline char-difference TF-IDF scored 0.638, modestly above majority (0.512). The task appears to require detecting subtle semantic/wording contrasts between paired headlines, which char n-grams on the difference capture only weakly. Trying word-level n-grams on the difference signal (capturing shared-meaning vs. changed-word edits) as a complementary baseline; logistic regression with slightly stronger regularization.",
+      "model": {
+        "name": "logistic_regression",
+        "params": {
+          "C": 2.0,
+          "max_iter": 1000
+        }
+      },
+      "preprocess_options": {
+        "analyzer": "word",
+        "ngram_range": [
+          1,
+          2
+        ],
+        "max_features": 50000,
+        "min_df": 2,
+        "lowercase": true,
+        "combine": "difference"
+      }
+    },
+    "metric": {
+      "name": "accuracy",
+      "direction": "maximize",
+      "value": 0.6787234042553192
+    },
+    "artifact": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\artifacts\\headlines\\live_001\\experiment_003"
+  },
+  "final_model": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\headlines\\live_001\\final_model",
+  "prediction": {
+    "event": "partd.result",
+    "schema_version": 1,
+    "command": "predict",
+    "status": "success",
+    "n_predictions": 3232,
+    "output_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\headlines\\live_001\\predictions.csv",
+    "metadata_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\headlines\\live_001\\predictions.csv.metadata.json",
+    "source_experiment_id": "experiment_003",
+    "classes": [
+      0,
+      1
+    ],
+    "probability_columns": {},
+    "input_sha256": "f0d1b7b4077baf11b17b87204e81cbf89005691e020fd2db6b70bf31718a72e6",
+    "input_source": "partb",
+    "input_hash_kind": "features_and_ids",
+    "split": "test",
+    "preprocessor_sha256": "83c03bf24f9d7aae6e8e4359975ea10fb867449cd12db45fc274267183f6031a",
+    "partb_source_sha256": "0dad32bb325c4d26aedf44d61643acf37724ac75f1fdb3833f0f55280548d160",
+    "model_sha256": "afaef6bcb007acf0c894e2377c6e151d8d7141015b2d8e4205553c3bbd42547b",
+    "versions": {
+      "python": "3.11.5",
+      "numpy": "1.26.4",
+      "scikit-learn": "1.4.2",
+      "joblib": "1.4.2",
+      "pandas": "3.0.6",
+      "scipy": "1.17.1",
+      "Pillow": "12.3.0"
+    }
+  },
+  "final_evaluation": {
+    "split": "test",
+    "metric": "accuracy",
+    "value": 0.6584158415841584,
+    "n_samples": 3232,
+    "selected_experiment_id": "experiment_003",
+    "used_for_selection": false
+  }
+}

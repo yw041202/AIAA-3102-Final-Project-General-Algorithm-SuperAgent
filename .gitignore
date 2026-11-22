@@ -6,3 +6,6 @@ __pycache__/
 *.pyc
 logs/
 .partc_state/
+runs/
+data/
+*.egg-info/

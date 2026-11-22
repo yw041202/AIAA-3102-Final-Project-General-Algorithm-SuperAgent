@@ -132,6 +132,13 @@ def test_old_numeric_v01_artifact_still_loads(tmp_path_factory):
     old = root / "evidence" / "demo-run"
     if not old.exists():
         pytest.skip("legacy evidence fixture not present")
+    from partd.common import versions
+    artifact = old / "artifacts/synthetic_demo/development/logistic_direct"
+    if read_json(artifact / "artifact.json")["versions"] != versions():
+        # The legacy fixture is Python 3.12.4; verify rejection on other runtimes.
+        with pytest.raises(ValueError, match="artifact environment differs"):
+            predict(artifact, old / "prediction.csv", tmp_path_factory.mktemp("old") / "p.csv")
+        return
     output = predict(old / "artifacts/synthetic_demo/development/logistic_direct", old / "prediction.csv",
                      tmp_path_factory.mktemp("old") / "p.csv")
     assert output["n_predictions"] == 30

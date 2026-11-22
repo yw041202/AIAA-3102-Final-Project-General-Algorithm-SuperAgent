@@ -1,0 +1,4 @@
+-e ./partb
+-e ./partc
+-e ./partd
+pytest>=7,<9

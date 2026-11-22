@@ -1,0 +1,31 @@
+{
+  "event": "partd.result",
+  "schema_version": 1,
+  "command": "predict",
+  "status": "success",
+  "n_predictions": 2537,
+  "output_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\coupon\\live_001\\predictions.csv",
+  "metadata_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\coupon\\live_001\\predictions.csv.metadata.json",
+  "source_experiment_id": "experiment_006",
+  "classes": [
+    0,
+    1
+  ],
+  "probability_columns": {},
+  "input_sha256": "00087144709da48364606509340535352bdfda4800437f0a5f6b5c1b1d9e75a5",
+  "input_source": "partb",
+  "input_hash_kind": "features_and_ids",
+  "split": "test",
+  "preprocessor_sha256": "3f88a244375f3f8867eca3c17d6084610048545cdd63cdfc4c1796d728b6c32e",
+  "partb_source_sha256": "0dad32bb325c4d26aedf44d61643acf37724ac75f1fdb3833f0f55280548d160",
+  "model_sha256": "6634de3fe13f15fa28c6e673ae9fe6aff563699f79c607d5e79d0abaea26a357",
+  "versions": {
+    "python": "3.11.5",
+    "numpy": "1.26.4",
+    "scikit-learn": "1.4.2",
+    "joblib": "1.4.2",
+    "pandas": "3.0.6",
+    "scipy": "1.17.1",
+    "Pillow": "12.3.0"
+  }
+}

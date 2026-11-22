@@ -1,0 +1,163 @@
+{
+  "version": 1,
+  "tasks": {
+    "coupon": {
+      "task_id": "coupon",
+      "budget_rmb": "20",
+      "created_at": "2026-11-22T09:59:13.641922+00:00",
+      "entries": [
+        {
+          "call_id": "call_6d9042a7e7d8442e",
+          "model": "DeepSeek-V4.1-Flash",
+          "pricing_version": "course_off_peak_20261021",
+          "status": "settled",
+          "timestamp": "2026-11-22T09:59:18.808337+00:00",
+          "input_tokens": 1428,
+          "output_tokens": 148,
+          "reserved_rmb": "0",
+          "cost_rmb": "0.00202",
+          "error_type": null
+        },
+        {
+          "call_id": "call_789009dfe4434e38",
+          "model": "DeepSeek-V4.1-Flash",
+          "pricing_version": "course_off_peak_20261021",
+          "status": "settled",
+          "timestamp": "2026-11-22T09:59:35.490727+00:00",
+          "input_tokens": 1485,
+          "output_tokens": 125,
+          "reserved_rmb": "0",
+          "cost_rmb": "0.001985",
+          "error_type": null
+        },
+        {
+          "call_id": "call_8dbe7d6f45404fb0",
+          "model": "DeepSeek-V4.1-Flash",
+          "pricing_version": "course_off_peak_20261021",
+          "status": "settled",
+          "timestamp": "2026-11-22T09:59:38.857620+00:00",
+          "input_tokens": 1511,
+          "output_tokens": 111,
+          "reserved_rmb": "0",
+          "cost_rmb": "0.001955",
+          "error_type": null
+        },
+        {
+          "call_id": "call_f25720a136a14818",
+          "model": "DeepSeek-V4.1-Flash",
+          "pricing_version": "course_off_peak_20261021",
+          "status": "settled",
+          "timestamp": "2026-11-22T09:59:54.197915+00:00",
+          "input_tokens": 1683,
+          "output_tokens": 131,
+          "reserved_rmb": "0",
+          "cost_rmb": "0.002207",
+          "error_type": null
+        },
+        {
+          "call_id": "call_5aac107b15a74b7c",
+          "model": "DeepSeek-V4.1-Flash",
+          "pricing_version": "course_off_peak_20261021",
+          "status": "settled",
+          "timestamp": "2026-11-22T10:00:14.262092+00:00",
+          "input_tokens": 1880,
+          "output_tokens": 133,
+          "reserved_rmb": "0",
+          "cost_rmb": "0.002412",
+          "error_type": null
+        },
+        {
+          "call_id": "call_2da4f85a332d4ff8",
+          "model": "DeepSeek-V4.1-Flash",
+          "pricing_version": "course_off_peak_20261021",
+          "status": "settled",
+          "timestamp": "2026-11-22T10:00:35.386247+00:00",
+          "input_tokens": 2081,
+          "output_tokens": 139,
+          "reserved_rmb": "0",
+          "cost_rmb": "0.002637",
+          "error_type": null
+        }
+      ]
+    },
+    "headlines": {
+      "task_id": "headlines",
+      "budget_rmb": "20",
+      "created_at": "2026-11-22T10:01:57.881803+00:00",
+      "entries": [
+        {
+          "call_id": "call_4677e98b863b4d59",
+          "model": "DeepSeek-V4.1-Flash",
+          "pricing_version": "course_off_peak_20261021",
+          "status": "settled",
+          "timestamp": "2026-11-22T10:02:03.291999+00:00",
+          "input_tokens": 607,
+          "output_tokens": 140,
+          "reserved_rmb": "0",
+          "cost_rmb": "0.001167",
+          "error_type": null
+        },
+        {
+          "call_id": "call_4048e019afd748ed",
+          "model": "DeepSeek-V4.1-Flash",
+          "pricing_version": "course_off_peak_20261021",
+          "status": "settled",
+          "timestamp": "2026-11-22T10:02:09.930161+00:00",
+          "input_tokens": 640,
+          "output_tokens": 127,
+          "reserved_rmb": "0",
+          "cost_rmb": "0.001148",
+          "error_type": null
+        },
+        {
+          "call_id": "call_a2de14c70e7a48cc",
+          "model": "DeepSeek-V4.1-Flash",
+          "pricing_version": "course_off_peak_20261021",
+          "status": "settled",
+          "timestamp": "2026-11-22T10:02:32.726935+00:00",
+          "input_tokens": 837,
+          "output_tokens": 157,
+          "reserved_rmb": "0",
+          "cost_rmb": "0.001465",
+          "error_type": null
+        },
+        {
+          "call_id": "call_096e17ef85064353",
+          "model": "DeepSeek-V4.1-Flash",
+          "pricing_version": "course_off_peak_20261021",
+          "status": "settled",
+          "timestamp": "2026-11-22T10:02:57.528875+00:00",
+          "input_tokens": 1064,
+          "output_tokens": 177,
+          "reserved_rmb": "0",
+          "cost_rmb": "0.001772",
+          "error_type": null
+        },
+        {
+          "call_id": "call_bee0e5c393c54f77",
+          "model": "DeepSeek-V4.1-Flash",
+          "pricing_version": "course_off_peak_20261021",
+          "status": "settled",
+          "timestamp": "2026-11-22T10:03:22.957322+00:00",
+          "input_tokens": 1313,
+          "output_tokens": 143,
+          "reserved_rmb": "0",
+          "cost_rmb": "0.001885",
+          "error_type": null
+        },
+        {
+          "call_id": "call_83a3076029eb4994",
+          "model": "DeepSeek-V4.1-Flash",
+          "pricing_version": "course_off_peak_20261021",
+          "status": "settled",
+          "timestamp": "2026-11-22T10:03:46.076455+00:00",
+          "input_tokens": 1526,
+          "output_tokens": 201,
+          "reserved_rmb": "0",
+          "cost_rmb": "0.00233",
+          "error_type": null
+        }
+      ]
+    }
+  }
+}

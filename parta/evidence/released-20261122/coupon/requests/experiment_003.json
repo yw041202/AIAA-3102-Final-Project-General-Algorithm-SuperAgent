@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "task_id": "coupon",
+  "run_id": "live_001",
+  "experiment_id": "experiment_003",
+  "seed": 42,
+  "data": {
+    "source": "partb",
+    "config_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\partb\\configs\\coupon.json",
+    "data_root": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\final_project_tasks\\final_project_tasks\\in_vehicle_coupon_recommendation",
+    "partb_root": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\partb",
+    "preprocess_options": {
+      "encoding": "onehot",
+      "numeric_columns": []
+    }
+  },
+  "model": {
+    "name": "logistic_regression",
+    "params": {
+      "C": 1.0,
+      "max_iter": 1000
+    }
+  },
+  "metrics": {
+    "primary": "accuracy",
+    "additional": []
+  },
+  "preprocessing": "partb",
+  "output_dir": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\artifacts"
+}

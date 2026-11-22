@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import os
 import time
+from urllib.parse import urlparse
 from typing import Any, Dict, List, Optional, Union
 
 from .config import PartCConfig, normalize_base_url
@@ -50,8 +51,12 @@ _DEFAULT_TASK_ID = "default_task"
 
 
 def estimate_input_tokens(messages: List[Message]) -> int:
-    """Rough upper-bound input-token estimate (used only for reservation)."""
-    total = 0
+    """Conservative UTF-8 byte estimate plus message framing for text requests.
+
+    This is not a provider tokenizer; actual usage still controls settlement.
+    Byte counting avoids the old characters/4 underestimate for CJK text.
+    """
+    total = 256
     for m in messages:
         if isinstance(m, ChatMessage):
             content = m.content
@@ -59,7 +64,7 @@ def estimate_input_tokens(messages: List[Message]) -> int:
             content = m.get("content", "")
         else:
             content = str(m)
-        total += max(1, len(str(content)) // 4) + 4  # ~4 chars/token + overhead
+        total += max(1, len(str(content).encode("utf-8"))) + 64
     return max(total, 1)
 
 
@@ -74,11 +79,17 @@ class SDKBackend:
         except ImportError as exc:  # pragma: no cover
             raise ConfigurationError("the 'openai' package is required for live LLM calls") from exc
         self._openai = openai
+        self._disable_thinking = config.extra.get("PARTC_DISABLE_THINKING", "false").lower() == "true"
+        transport = {}
+        if config.extra.get("PARTC_TRUST_ENV", "true").lower() == "false":
+            import httpx
+            transport["http_client"] = httpx.Client(trust_env=False)
         self._client = openai.OpenAI(
             api_key=config.api_key,
             base_url=normalize_base_url(config.base_url),
             timeout=config.timeout_seconds,
             max_retries=0,  # retries are handled by the client, not the SDK
+            **transport,
         )
 
     def complete(self, model: str, messages: List[Dict[str, str]], max_tokens: int, temperature: Optional[float], timeout: float) -> Dict[str, Any]:
@@ -89,6 +100,8 @@ class SDKBackend:
         }
         if temperature is not None:
             kwargs["temperature"] = temperature
+        if self._disable_thinking:
+            kwargs["extra_body"] = {"chat_template_kwargs": {"enable_thinking": False}}
         try:
             resp = self._client.chat.completions.create(**kwargs)
         except self._openai.APITimeoutError as exc:
@@ -401,7 +414,8 @@ class ZhizengzengLLMClient:
             task_id=task_id,
             run_id=run_id,
             call_id=call_id,
-            provider="zhizengzeng",
+            provider=("zhizengzeng" if urlparse(self.config.base_url).hostname == "api.zhizengzeng.com"
+                      else urlparse(self.config.base_url).hostname or "openai-compatible"),
             requested_model_id=model_id,
             resolved_model_version=info.underlying_model_version,
             request_status=status,

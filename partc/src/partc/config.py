@@ -7,7 +7,7 @@ standard library alone).
 
 Security guarantees enforced here:
 
-* the API key is never hard-coded and is read *only* from ``ZZZ_API_KEY``;
+* the API key is never hard-coded; ``AIAA3102_API_KEY`` takes precedence over ``ZZZ_API_KEY``;
 * other AI-tool environment variables (``OPENAI_API_KEY`` etc.) are ignored;
 * the key is never included in log records or ``repr`` output;
 * the base URL is normalised so that ``/v1/v1`` is never produced.
@@ -24,6 +24,7 @@ from .errors import ConfigurationError
 
 # Environment-variable names that are never inherited by subprocesses we spawn.
 SENSITIVE_ENV_VARS = {
+    "AIAA3102_API_KEY",
     "ZZZ_API_KEY",
     "OPENAI_API_KEY",
     "ANTHROPIC_API_KEY",
@@ -48,7 +49,7 @@ def _redact(value: Optional[str]) -> str:
 
 
 def normalize_base_url(url: str) -> str:
-    """Return a base URL that ends in exactly one ``/v1``.
+    """Normalize common endpoints, preserving explicit versioned API bases.
 
     Handles the common mistakes: a bare host, ``/v1/v1`` duplication, a fully
     qualified ``/chat/completions`` endpoint, or a trailing slash.
@@ -60,6 +61,8 @@ def normalize_base_url(url: str) -> str:
         url = "https://" + url
     # Strip an accidentally supplied full chat-completions endpoint.
     url = re.sub(r"/chat/completions/?$", "", url)
+    if re.search(r"/api/v\d+$", url):
+        return url
     # Strip any existing /v1 suffix(es) so we can add exactly one back.
     while url.endswith("/v1"):
         url = url[:-3]
@@ -158,7 +161,7 @@ def load_config(env_file: Optional[str] = None) -> PartCConfig:
     retries = _to_int(get("PARTC_MAX_RETRIES", "3"), "PARTC_MAX_RETRIES", 3)
 
     cfg = PartCConfig(
-        api_key=environ.get("ZZZ_API_KEY"),
+        api_key=environ.get("AIAA3102_API_KEY") or environ.get("ZZZ_API_KEY"),
         base_url=base_url,
         model=model,
         budget_rmb=budget_rmb,

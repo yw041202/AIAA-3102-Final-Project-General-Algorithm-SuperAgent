@@ -9,6 +9,28 @@
   "models": [
     {
       "provider": "deepseek",
+      "requested_model_id": "DeepSeek-V4.1-Flash",
+      "aliases": ["DSF"],
+      "underlying_model_version": "DeepSeek-V4.1-Flash-1017",
+      "official_release_date": "2026-10-17",
+      "release_date_confirmed": true,
+      "official_release_source": "https://api-docs.deepseek.com/updates/ (2026-10-17)",
+      "pricing_source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+      "pricing_reference_date": "2026-10-21",
+      "pricing": {
+        "currency": "CNY",
+        "unit": "per_1m_tokens",
+        "input_per_1m_tokens": "1.0",
+        "output_per_1m_tokens": "4.0",
+        "billing_mode": "course_off_peak_20261021",
+        "notes": "Course clarification permits official off-peak rates at all times, without cache discounts. Current official rates checked 2026-11-22; retain historical pricing evidence for final submission."
+      },
+      "verified": true,
+      "allowed": true,
+      "notes": "HKUST HPC model mapping confirmed at https://docs.hpc.hkust-gz.edu.cn/docs/aigc/api-model-list/ . Platform rates (0.50/2.00) differ from course-accounting rates (1.00/4.00)."
+    },
+    {
+      "provider": "deepseek",
       "requested_model_id": "deepseek-v4.1-flash-1017",
       "aliases": ["deepseek-flash", "deepseek-v4-flash", "deepseek-v4-flash-vision-exp"],
       "underlying_model_version": "DeepSeek-V4.1-Flash-1017",

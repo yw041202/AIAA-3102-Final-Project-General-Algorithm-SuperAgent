@@ -177,6 +177,18 @@ class PythonExecutor:
         return env
 
     def _kill_group(self, proc: subprocess.Popen) -> None:
+        if os.name == "nt":
+            # taskkill /T handles descendants; proc.kill is a fallback for the parent.
+            try:
+                subprocess.run(["taskkill", "/PID", str(proc.pid), "/T", "/F"],
+                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                               timeout=10, check=False)
+            except (OSError, subprocess.TimeoutExpired):
+                pass
+            if proc.poll() is None:
+                proc.kill()
+            proc.wait(timeout=5)
+            return
         try:
             os.killpg(proc.pid, signal.SIGTERM)
         except (ProcessLookupError, OSError):
