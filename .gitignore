@@ -9,3 +9,6 @@ logs/
 runs/
 data/
 *.egg-info/
+
+# Curated review evidence includes executor logs; runtime logs remain ignored.
+!parta/evidence/released-20261122/**
