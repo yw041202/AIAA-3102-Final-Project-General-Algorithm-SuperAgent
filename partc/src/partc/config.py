@@ -107,7 +107,7 @@ def _load_dotenv(path: str, environ: Dict[str, str]) -> Dict[str, str]:
 class PartCConfig:
     """Resolved runtime configuration for the toolkit."""
 
-    api_key: Optional[str] = None
+    api_key: Optional[str] = field(default=None, repr=False)
     base_url: str = DEFAULT_BASE_URL
     model: str = DEFAULT_MODEL
     budget_rmb: str = "20"
@@ -118,7 +118,7 @@ class PartCConfig:
     retry_backoff_base_seconds: float = 1.0
     env_file: str = ".env"
     # extra, unresolved settings preserved verbatim (for forward-compat)
-    extra: Dict[str, str] = field(default_factory=dict)
+    extra: Dict[str, str] = field(default_factory=dict, repr=False)
 
     @property
     def api_key_redacted(self) -> str:
@@ -170,7 +170,8 @@ def load_config(env_file: Optional[str] = None) -> PartCConfig:
         timeout_seconds=timeout,
         max_retries=retries,
         env_file=path,
-        extra={k: v for k, v in environ.items() if k.startswith(("ZZZ_", "PARTC_"))},
+        extra={k: v for k, v in environ.items()
+               if k.startswith(("ZZZ_", "PARTC_")) and k not in SENSITIVE_ENV_VARS},
     )
     return cfg
 

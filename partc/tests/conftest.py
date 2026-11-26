@@ -19,11 +19,21 @@ for _p in (SRC, EXAMPLES):
 
 import pytest  # noqa: E402
 
-from partc.config import PartCConfig  # noqa: E402
+from partc.config import PartCConfig, SENSITIVE_ENV_VARS  # noqa: E402
 from partc.models import ModelRegistry  # noqa: E402
 from partc.budget_manager import BudgetManager  # noqa: E402
 from partc.logger import StructuredLogger  # noqa: E402
 from partc.llm_client import ZhizengzengLLMClient, MockBackend  # noqa: E402
+
+
+@pytest.fixture(autouse=True)
+def isolate_user_configuration(monkeypatch, tmp_path):
+    """Tests opt in to fake configuration, never a developer's credentials."""
+    for name in tuple(os.environ):
+        if (name in SENSITIVE_ENV_VARS or name.startswith(("ZZZ_", "PARTC_"))) and name != "PARTC_ROOT":
+            monkeypatch.delenv(name, raising=False)
+    # Also prevent an ignored repository .env from being loaded by defaults.
+    monkeypatch.setenv("PARTC_ENV_FILE", str(tmp_path / "absent-test.env"))
 
 
 @pytest.fixture

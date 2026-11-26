@@ -12,8 +12,10 @@ headlines **65.84%**, with **142 passing tests**. See [results, saved model bund
 execution evidence and cross-review instructions](parta/LIVE_RESULTS_ZH.md).
 
 ```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+python -m venv .venv  # CPython 3.11.5 for saved-model reproduction
+.\.venv\Scripts\python.exe -m pip install -r requirements.lock
+.\.venv\Scripts\python.exe -m pip install --no-build-isolation -r requirements.txt
+.\.venv\Scripts\python.exe scripts/check_environment.py
 .\.venv\Scripts\python.exe run_superagent.py demo --output runs/demo-tabular
 ```
 
@@ -21,7 +23,10 @@ The demo uses synthetic data and an offline planner, with real B/C/D training an
 prediction. Live runs require the instructor dataset/configuration and a compliant
 model API configured locally. Image training is not yet supported by Part D.
 
+Exact environment setup and test commands: [ENVIRONMENT.md](ENVIRONMENT.md).
+
 ## Group Members:
+
 * Anqi ZHAO
 * Wenjun LU
 * Yilin WU

@@ -48,7 +48,7 @@ def test_load_config_reads_env(monkeypatch, tmp_path):
     assert cfg.budget_rmb == "20"
 
 
-def test_load_config_only_uses_zzz_key(monkeypatch, tmp_path):
+def test_load_config_ignores_unrelated_keys(monkeypatch, tmp_path):
     # other AI tools' keys must be ignored
     monkeypatch.setenv("OPENAI_API_KEY", "sk-openai-should-be-ignored")
     monkeypatch.delenv("ZZZ_API_KEY", raising=False)
@@ -88,3 +88,24 @@ def test_sanitize_environ_removes_zzz_key(monkeypatch):
     assert "ZZZ_API_KEY" not in env
     assert "OPENAI_API_KEY" not in env
     assert env.get("KEEP_ME") == "keep"
+
+
+def test_school_key_precedence_and_secret_free_repr(monkeypatch, tmp_path):
+    monkeypatch.setenv("AIAA3102_API_KEY", "fake-school-credential")
+    monkeypatch.setenv("ZZZ_API_KEY", "fake-legacy-credential")
+    cfg = load_config(str(tmp_path / "absent.env"))
+    assert cfg.api_key == "fake-school-credential"
+    assert "ZZZ_API_KEY" not in cfg.extra
+    assert "AIAA3102_API_KEY" not in cfg.extra
+    assert "fake-school-credential" not in repr(cfg)
+    assert "fake-legacy-credential" not in repr(cfg)
+    clean = sanitize_environ()
+    assert "AIAA3102_API_KEY" not in clean
+    assert "ZZZ_API_KEY" not in clean
+
+
+def test_direct_config_extra_cannot_leak_in_repr():
+    from partc.config import PartCConfig
+    cfg = PartCConfig(api_key="fake-main-secret", extra={"ZZZ_API_KEY": "fake-extra-secret"})
+    assert "fake-main-secret" not in repr(cfg)
+    assert "fake-extra-secret" not in repr(cfg)

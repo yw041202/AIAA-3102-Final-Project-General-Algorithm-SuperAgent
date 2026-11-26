@@ -27,6 +27,7 @@ from .schemas import (
 )
 from .errors import (
     BudgetExceededError,
+    BudgetStateError,
     ConfigurationError,
     ModelComplianceError,
     PartCError,
@@ -58,6 +59,7 @@ __all__ = [
     "ConfigurationError",
     "ModelComplianceError",
     "BudgetExceededError",
+    "BudgetStateError",
     # modules
     "PartCConfig",
     "load_config",

@@ -25,10 +25,10 @@ import json
 import os
 import threading
 from dataclasses import dataclass, field
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from typing import Any, Dict, List, Optional
 
-from .errors import BudgetExceededError
+from .errors import BudgetExceededError, BudgetStateError
 from .schemas import _now_iso
 
 _ONE_CENT = Decimal("0.00000001")
@@ -148,6 +148,73 @@ class TaskLedger:
         }
 
 
+def _unique_object(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError("Duplicate ledger field")
+        result[key] = value
+    return result
+
+
+def _money(value):
+    if isinstance(value, bool) or not isinstance(value, (str, int, float)):
+        raise ValueError("Invalid money value")
+    amount = Decimal(str(value))
+    if not amount.is_finite() or amount < 0:
+        raise ValueError("Money must be finite and nonnegative")
+    # Ledger format persists at eight decimal places. Reject values that would
+    # change accounting on the next save instead of silently rounding them.
+    if amount != amount.quantize(_ONE_CENT):
+        raise ValueError("Unsupported monetary precision")
+    return amount
+
+
+def _validated_tasks(data):
+    if (not isinstance(data, dict) or type(data.get("version")) is not int
+            or data["version"] != 1 or not isinstance(data.get("tasks"), dict)):
+        raise ValueError("Unsupported ledger schema")
+    tasks = {}
+    for task_id, raw in data["tasks"].items():
+        if (not isinstance(task_id, str) or not task_id or not isinstance(raw, dict)
+                or raw["task_id"] != task_id or not isinstance(raw["entries"], list)
+                or not isinstance(raw["created_at"], str)):
+            raise ValueError("Invalid task record")
+        budget = _money(raw["budget_rmb"])
+        if budget <= 0:
+            raise ValueError("Budget must be positive")
+        entries, call_ids = [], set()
+        for entry in raw["entries"]:
+            if not isinstance(entry, dict):
+                raise ValueError("Invalid call record")
+            for key in ("call_id", "model", "pricing_version", "timestamp"):
+                if not isinstance(entry[key], str) or not entry[key]:
+                    raise ValueError("Missing call identity")
+            if entry["call_id"] in call_ids:
+                raise ValueError("Duplicate call identity")
+            call_ids.add(entry["call_id"])
+            status = entry["status"]
+            if status not in {"reserved", "settled", "uncertain", "released"}:
+                raise ValueError("Unknown call status")
+            held = _money(entry["reserved_rmb"])
+            cost = None if entry["cost_rmb"] is None else _money(entry["cost_rmb"])
+            for key in ("input_tokens", "output_tokens"):
+                value = entry[key]
+                if value is not None and (type(value) is not int or value < 0):
+                    raise ValueError("Invalid token count")
+                if status == "settled" and value is None:
+                    raise ValueError("Settled call requires actual tokens")
+            if status == "settled" and (cost is None or held != 0):
+                raise ValueError("Invalid settlement")
+            if status in {"reserved", "uncertain"} and cost is not None:
+                raise ValueError("Unsettled call cannot have settled cost")
+            if status == "released" and (held != 0 or cost != 0):
+                raise ValueError("Released call must have zero amounts")
+            entries.append(LedgerEntry.from_dict(entry))
+        tasks[task_id] = TaskLedger(task_id, budget, entries, raw["created_at"])
+    return tasks
+
+
 class BudgetManager:
     """Per-task, persistent, exact-decimal budget accounting."""
 
@@ -160,22 +227,21 @@ class BudgetManager:
 
     # -- persistence ------------------------------------------------------
     def _load(self) -> None:
-        if not os.path.isfile(self.state_path):
-            return
         try:
             with open(self.state_path, "r", encoding="utf-8") as fh:
-                data = json.load(fh)
-        except (OSError, json.JSONDecodeError):
+                data = json.load(fh, object_pairs_hook=_unique_object)
+        except FileNotFoundError:
+            # Only a genuinely absent ledger is a new account. A dangling link
+            # must not be mistaken for one and replaced on the next save.
+            if os.path.lexists(self.state_path):
+                raise BudgetStateError("Budget ledger target is missing; restore verified accounting state") from None
             return
-        tasks = data.get("tasks", {})
-        for task_id, raw in tasks.items():
-            ledger = TaskLedger(
-                task_id=task_id,
-                budget_rmb=Decimal(str(raw.get("budget_rmb", self.default_budget_rmb))),
-                entries=[LedgerEntry.from_dict(e) for e in raw.get("entries", [])],
-                created_at=raw.get("created_at", ""),
-            )
-            self._tasks[task_id] = ledger
+        except (OSError, UnicodeError, ValueError):
+            raise BudgetStateError("Budget ledger is unreadable or malformed; preserve it and restore verified accounting state") from None
+        try:
+            self._tasks = _validated_tasks(data)
+        except (KeyError, TypeError, ValueError, InvalidOperation):
+            raise BudgetStateError("Budget ledger has invalid accounting fields; preserve it and restore verified accounting state") from None
 
     def _save(self) -> None:
         parent = os.path.dirname(self.state_path)

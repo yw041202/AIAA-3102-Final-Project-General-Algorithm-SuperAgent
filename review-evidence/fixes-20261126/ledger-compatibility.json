@@ -1,0 +1,43 @@
+{
+  "released": {
+    "coupon": {
+      "task_id": "coupon",
+      "budget_rmb": "20",
+      "spent_rmb": "0.019245",
+      "held_reserved_rmb": "0.014576",
+      "available_rmb": "19.966179",
+      "calls": 10,
+      "settled": 9,
+      "uncertain": 1,
+      "errors": 1,
+      "over_budget": false
+    },
+    "headlines": {
+      "task_id": "headlines",
+      "budget_rmb": "20",
+      "spent_rmb": "0.010872",
+      "held_reserved_rmb": "0.010817",
+      "available_rmb": "19.978311",
+      "calls": 8,
+      "settled": 7,
+      "uncertain": 1,
+      "errors": 1,
+      "over_budget": false
+    }
+  },
+  "hkust_smoke": {
+    "hkust_connectivity": {
+      "task_id": "hkust_connectivity",
+      "budget_rmb": "0.1",
+      "spent_rmb": "0.000059",
+      "held_reserved_rmb": "0.000888",
+      "available_rmb": "0.099053",
+      "calls": 2,
+      "settled": 1,
+      "uncertain": 1,
+      "errors": 1,
+      "over_budget": false
+    }
+  },
+  "original_ledger_bytes_unchanged": true
+}

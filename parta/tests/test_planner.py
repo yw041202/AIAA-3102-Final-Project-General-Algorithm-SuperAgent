@@ -1,5 +1,6 @@
 import json
 from decimal import Decimal
+from pathlib import Path
 
 import pytest
 
@@ -43,3 +44,18 @@ def test_actual_c_budget_rejection_makes_no_backend_call(tmp_path_factory, monke
     planner = LLMPlanner(config, folder / "r", str(folder / "no-env"))
     assert planner.propose({"history": []})["request_status"] == "budget_exceeded"
     assert planner.summary()["spent_rmb"] == "0"
+
+
+def test_damaged_ledger_blocks_backend_initialization(tmp_path_factory, monkeypatch):
+    from partc import BudgetStateError
+    folder = tmp_path_factory.mktemp("badledger")
+    config = load_task(make_fixture(folder / "d"))
+    path = Path(config['output_root']) / 'budget' / 'ledger.json'
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text('{broken', encoding='utf-8')
+    def forbidden(*args, **kwargs):
+        pytest.fail('No backend may be initialized with an invalid ledger')
+    monkeypatch.setattr('partc.llm_client.SDKBackend', forbidden)
+    with pytest.raises(BudgetStateError):
+        LLMPlanner(config, folder / 'run', str(folder / 'absent.env'))
+    assert path.read_text() == '{broken'

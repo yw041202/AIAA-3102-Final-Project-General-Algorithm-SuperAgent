@@ -4,11 +4,13 @@
 
 **Live acceptance:** both released tasks completed on 2026-11-22; 142 tests passed. [Results, downloadable model bundles and B/C/D review checklist](LIVE_RESULTS_ZH.md).
 
-Run commands from the repository root with Python 3.10–3.12 (tested environment: 3.11). Install B/C/D into the same interpreter used by the executor:
+Run commands from the repository root with **CPython 3.11.5** for saved-model reproduction. See [locked environment instructions](../ENVIRONMENT.md). Install B/C/D into the same interpreter used by the executor:
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements.lock
+.\.venv\Scripts\python.exe -m pip install --no-build-isolation -r requirements.txt
+.\.venv\Scripts\python.exe scripts/check_environment.py
 ```
 
 ## Offline acceptance
@@ -18,6 +20,7 @@ python -m venv .venv
 .\.venv\Scripts\python.exe run_superagent.py demo --output runs/demo-text --modality text
 $env:PARTB_ROOT = (Resolve-Path partb).Path
 $env:PARTC_ROOT = (Resolve-Path partc).Path
+New-Item -ItemType Directory -Force runs | Out-Null
 .\.venv\Scripts\python.exe -m pytest parta/tests partb/tests partc/tests partd/tests --import-mode=importlib --basetemp=runs/tests -q -o addopts=
 ```
 

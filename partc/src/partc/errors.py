@@ -27,6 +27,12 @@ class ConfigurationError(PartCError):
     kind = "configuration_error"
 
 
+class BudgetStateError(PartCError):
+    """Existing accounting state cannot be trusted; stop rather than reset it."""
+
+    kind = "budget_state_error"
+
+
 class ModelComplianceError(PartCError):
     """A requested model is not compliant with the course restrictions."""
 
