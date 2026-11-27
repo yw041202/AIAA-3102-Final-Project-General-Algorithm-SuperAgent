@@ -1,0 +1,43 @@
+{
+  "source_sha256": "d068c461d6943cc7cd6c3de4c8ef4135b8cccfc498ed1e424dc9095aae927231",
+  "full_tests": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "184",
+    "time": "231.948",
+    "timestamp": "2026-11-27T16:43:42.360554+08:00",
+    "hostname": "yw-v-"
+  },
+  "targeted_tests": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "18",
+    "time": "33.635",
+    "timestamp": "2026-11-27T16:42:31.522243+08:00",
+    "hostname": "yw-v-"
+  },
+  "prediction_reproduction": {
+    "n_predictions": 3232,
+    "byte_identical": true,
+    "sha256": "392de54d96ad32e6ec15485ddd24fcee516cdc1b9a1a121af6feff031e190c2e",
+    "independent_process": true
+  },
+  "live_run": {
+    "task_id": "headlines",
+    "run_id": "feedback27",
+    "successful_experiments": 6,
+    "validation_failures": 0,
+    "selected_experiment_id": "experiment_004",
+    "selected_by_best_validation_only": true,
+    "official_result": false
+  },
+  "environment": {
+    "python": "3.11.5",
+    "all_35_locked_packages_match": true,
+    "pip_check": "No broken requirements found."
+  }
+}

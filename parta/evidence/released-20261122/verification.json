@@ -1,0 +1,34 @@
+{
+  "source_sha256": "98a391de36c6a588a1b5a31f561ae029ce94ced830c72e772c23f308eac5494d",
+  "tasks": {
+    "coupon": {
+      "status": "success",
+      "selected": "experiment_006",
+      "validation_accuracy": 0.738423645320197,
+      "test_accuracy": 0.7512810405991328,
+      "n_predictions": 2537,
+      "predictions_identical": true,
+      "predictions_sha256": "058e5ea20ff7970e3d1245300739a5dc1dd2e9f0502dbb557c1ec9b634df79b7",
+      "calls": 6,
+      "prompt_tokens": 10068,
+      "completion_tokens": 787,
+      "course_cost_rmb": "0.013216"
+    },
+    "headlines": {
+      "status": "success",
+      "selected": "experiment_003",
+      "validation_accuracy": 0.6787234042553192,
+      "test_accuracy": 0.6584158415841584,
+      "n_predictions": 3232,
+      "predictions_identical": true,
+      "predictions_sha256": "6c15cd1d222aeea862645e045ec41632438230840b3e3695ae8f172d461793b7",
+      "calls": 6,
+      "prompt_tokens": 5987,
+      "completion_tokens": 945,
+      "course_cost_rmb": "0.009767"
+    }
+  },
+  "course_cost_released_tasks_rmb": "0.022983",
+  "known_cost_including_connectivity_rmb": "0.023042",
+  "connectivity_uncertain_reservation_rmb": "0.000888"
+}

@@ -1,0 +1,90 @@
+{
+  "execution": {
+    "execution_id": "exec_18bfa84f84844aae",
+    "task_id": "headlines",
+    "run_id": "feedback27",
+    "script_ref": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\integration-review-20261126\\partd\\src\\partd\\runner.py",
+    "status": "success",
+    "exit_code": 0,
+    "stdout": "{\"event\": \"partd.result\", \"schema_version\": 1, \"command\": \"train\", \"status\": \"success\", \"task_id\": \"headlines\", \"run_id\": \"feedback27\", \"experiment_id\": \"experiment_001\", \"metrics\": {\"accuracy\": 0.676595744680851}, \"primary_metric\": {\"name\": \"accuracy\", \"direction\": \"maximize\", \"value\": 0.676595744680851}, \"artifact\": {\"directory\": \"D:\\\\\\u5927\\u5b66\\u5b66\\u4e60\\\\AIAA3102_Python_Programming_with_AI\\\\project\\\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\\\runs\\\\released\\\\artifacts\\\\headlines\\\\feedback27\\\\experiment_001\", \"model_path\": \"D:\\\\\\u5927\\u5b66\\u5b66\\u4e60\\\\AIAA3102_Python_Programming_with_AI\\\\project\\\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\\\runs\\\\released\\\\artifacts\\\\headlines\\\\feedback27\\\\experiment_001\\\\model.joblib\", \"manifest_path\": \"D:\\\\\\u5927\\u5b66\\u5b66\\u4e60\\\\AIAA3102_Python_Programming_with_AI\\\\project\\\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\\\runs\\\\released\\\\artifacts\\\\headlines\\\\feedback27\\\\experiment_001\\\\artifact.json\", \"model_sha256\": \"ac2f81a37e142518bc4ecf96467e76545d04d143fc4ea0cc05c3913b1f6620cc\", \"preprocessor_path\": \"D:\\\\\\u5927\\u5b66\\u5b66\\u4e60\\\\AIAA3102_Python_Programming_with_AI\\\\project\\\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\\\runs\\\\released\\\\artifacts\\\\headlines\\\\feedback27\\\\experiment_001\\\\preprocessor.joblib\", \"task_config_path\": \"D:\\\\\\u5927\\u5b66\\u5b66\\u4e60\\\\AIAA3102_Python_Programming_with_AI\\\\project\\\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\\\runs\\\\released\\\\artifacts\\\\headlines\\\\feedback27\\\\experiment_001\\\\task_config.json\"}, \"data\": {\"source\": \"partb\", \"config_sha256\": \"792ff19a9e0de736b4c97f687611fae6bed49c85de0837b35f851ff21cd611b1\", \"n_train\": 8301, \"n_validation\": 940, \"train_sha256\": \"1bf78d5b74ab3a8d5fdd928329099cdca4d73a4e5e8111675aee416f8c30e7dc\", \"validation_sha256\": \"224560ae69e1de79ff7d0ebf55bc228faad3fa4a302ad40826c0b4fc13fa780f\", \"train_labels_sha256\": \"4783e5b7bbf0de7b0e51c1e51d4b497f96fbe5abb85a862fa985b608645a72eb\", \"validation_labels_sha256\": \"1e4f6cae456debf5f3828b95d32eee3c17c0feb00a5f2c54fa0d3cf8f5a26737\", \"feature_shape\": [8301, 37095], \"sparse\": true, \"split_policy\": \"official\"}, \"versions\": {\"python\": \"3.11.5\", \"numpy\": \"1.26.4\", \"scikit-learn\": \"1.4.2\", \"joblib\": \"1.4.2\", \"pandas\": \"3.0.6\", \"scipy\": \"1.17.1\", \"Pillow\": \"12.3.0\"}, \"input_source\": \"partb\", \"partd_source_sha256\": \"02faffd46aac7a6a3cce21249627d8a660b45de5c76392d9bb8b73151fb0b170\", \"warnings\": [], \"data_warnings\": [], \"validation_predictions_path\": \"D:\\\\\\u5927\\u5b66\\u5b66\\u4e60\\\\AIAA3102_Python_Programming_with_AI\\\\project\\\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\\\runs\\\\released\\\\artifacts\\\\headlines\\\\feedback27\\\\experiment_001\\\\validation_predictions.csv\", \"elapsed_seconds\": 10.35899999999674, \"result_path\": \"D:\\\\\\u5927\\u5b66\\u5b66\\u4e60\\\\AIAA3102_Python_Programming_with_AI\\\\project\\\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\\\runs\\\\released\\\\artifacts\\\\headlines\\\\feedback27\\\\experiment_001\\\\result.json\"}\n",
+    "stderr": "",
+    "stdout_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\headlines\\feedback27\\execution\\experiment_001\\stdout_stderr\\partc_out_95xwf_55.txt",
+    "stderr_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\headlines\\feedback27\\execution\\experiment_001\\stdout_stderr\\partc_err_461e84m2.txt",
+    "elapsed_seconds": 18.343999999997322,
+    "timeout_seconds": 600,
+    "error_type": null,
+    "error_details": null,
+    "timestamp": "2026-11-27T08:44:49.165942+00:00",
+    "extra": {}
+  },
+  "partd_result": {
+    "event": "partd.result",
+    "schema_version": 1,
+    "command": "train",
+    "status": "success",
+    "task_id": "headlines",
+    "run_id": "feedback27",
+    "experiment_id": "experiment_001",
+    "metrics": {
+      "accuracy": 0.676595744680851
+    },
+    "primary_metric": {
+      "name": "accuracy",
+      "direction": "maximize",
+      "value": 0.676595744680851
+    },
+    "artifact": {
+      "directory": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\artifacts\\headlines\\feedback27\\experiment_001",
+      "model_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\artifacts\\headlines\\feedback27\\experiment_001\\model.joblib",
+      "manifest_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\artifacts\\headlines\\feedback27\\experiment_001\\artifact.json",
+      "model_sha256": "ac2f81a37e142518bc4ecf96467e76545d04d143fc4ea0cc05c3913b1f6620cc",
+      "preprocessor_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\artifacts\\headlines\\feedback27\\experiment_001\\preprocessor.joblib",
+      "task_config_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\artifacts\\headlines\\feedback27\\experiment_001\\task_config.json"
+    },
+    "data": {
+      "source": "partb",
+      "config_sha256": "792ff19a9e0de736b4c97f687611fae6bed49c85de0837b35f851ff21cd611b1",
+      "n_train": 8301,
+      "n_validation": 940,
+      "train_sha256": "1bf78d5b74ab3a8d5fdd928329099cdca4d73a4e5e8111675aee416f8c30e7dc",
+      "validation_sha256": "224560ae69e1de79ff7d0ebf55bc228faad3fa4a302ad40826c0b4fc13fa780f",
+      "train_labels_sha256": "4783e5b7bbf0de7b0e51c1e51d4b497f96fbe5abb85a862fa985b608645a72eb",
+      "validation_labels_sha256": "1e4f6cae456debf5f3828b95d32eee3c17c0feb00a5f2c54fa0d3cf8f5a26737",
+      "feature_shape": [
+        8301,
+        37095
+      ],
+      "sparse": true,
+      "split_policy": "official"
+    },
+    "versions": {
+      "python": "3.11.5",
+      "numpy": "1.26.4",
+      "scikit-learn": "1.4.2",
+      "joblib": "1.4.2",
+      "pandas": "3.0.6",
+      "scipy": "1.17.1",
+      "Pillow": "12.3.0"
+    },
+    "input_source": "partb",
+    "partd_source_sha256": "02faffd46aac7a6a3cce21249627d8a660b45de5c76392d9bb8b73151fb0b170",
+    "warnings": [],
+    "data_warnings": [],
+    "validation_predictions_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\artifacts\\headlines\\feedback27\\experiment_001\\validation_predictions.csv",
+    "elapsed_seconds": 10.35899999999674,
+    "result_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\artifacts\\headlines\\feedback27\\experiment_001\\result.json"
+  },
+  "status": "success",
+  "execution_summary": {
+    "task_id": "headlines",
+    "n_executions": 1,
+    "n_success": 1,
+    "n_runtime_error": 0,
+    "n_timeout": 0,
+    "n_execution_error": 0
+  },
+  "executor_source": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\integration-review-20261126\\partc\\src\\partc\\code_executor.py",
+  "executor_sha256": "356ce38bbf294bd847af64c8a9de8635feeacebd4000e3bbd885253d1b061dab",
+  "python": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\integration-review-20261126\\.venv\\Scripts\\python.exe",
+  "execution_log_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\headlines\\feedback27\\execution\\experiment_001\\logs\\execution.jsonl"
+}

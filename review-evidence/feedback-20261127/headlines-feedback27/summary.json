@@ -1,0 +1,298 @@
+{
+  "status": "success",
+  "task_id": "headlines",
+  "run_id": "feedback27",
+  "offline": false,
+  "official_result": false,
+  "source_sha256": "d068c461d6943cc7cd6c3de4c8ef4135b8cccfc498ed1e424dc9095aae927231",
+  "run_directory": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\headlines\\feedback27",
+  "stop_reason": "max_steps",
+  "history": [
+    {
+      "experiment_id": "experiment_001",
+      "status": "success",
+      "decision": {
+        "action": "experiment",
+        "reason": "Text pair classification with balanced classes and no prior runs; start with a strong word unigram+bigram TF-IDF baseline using the 'difference' combine mode since the task is judging whether the two headlines are related/duplicate, so asymmetric differences between A and B carry signal. Logistic regression is robust for sparse high-dimensional features.",
+        "model": {
+          "name": "logistic_regression",
+          "params": {
+            "C": 1.0,
+            "max_iter": 1000,
+            "class_weight": null,
+            "solver": "liblinear"
+          }
+        },
+        "preprocess_options": {
+          "analyzer": "word",
+          "ngram_range": [
+            1,
+            2
+          ],
+          "max_features": 50000,
+          "min_df": 2,
+          "lowercase": true,
+          "combine": "difference"
+        }
+      },
+      "metric": {
+        "name": "accuracy",
+        "direction": "maximize",
+        "value": 0.676595744680851
+      }
+    },
+    {
+      "experiment_id": "experiment_002",
+      "status": "success",
+      "decision": {
+        "action": "experiment",
+        "reason": "Baseline of 0.677 accuracy with difference-combined word TF-IDF leaves clear room to improve. For a paired headline relatedness task, concatenation preserves the full content of both headlines and typically works better than difference alone with a linear model; adding character n-grams captures word-form overlap/morphological similarity missed by word tokens. Keep logistic regression with modest regularization as a stronger baseline.",
+        "model": {
+          "name": "logistic_regression",
+          "params": {
+            "C": 1.0,
+            "max_iter": 1000,
+            "class_weight": null,
+            "solver": "liblinear"
+          }
+        },
+        "preprocess_options": {
+          "analyzer": "word",
+          "ngram_range": [
+            1,
+            2
+          ],
+          "max_features": 50000,
+          "min_df": 2,
+          "lowercase": true,
+          "combine": "concat"
+        }
+      },
+      "metric": {
+        "name": "accuracy",
+        "direction": "maximize",
+        "value": 0.6585106382978724
+      }
+    },
+    {
+      "experiment_id": "experiment_003",
+      "status": "success",
+      "decision": {
+        "action": "experiment",
+        "reason": "Difference-combined word TF-IDF (0.6766) beat concat (0.6585), suggesting contrast features help, but both were weak; a nonlinear model can exploit feature interactions that linear logistic regression misses. Random forest on high-dimensional sparse TF-IDF may be unstable, so try a regularization-adjusted logistic regression with char n-grams in difference mode to capture word-form overlap, keeping the winning difference combine and increasing feature capacity.",
+        "model": {
+          "name": "logistic_regression",
+          "params": {
+            "C": 2.0,
+            "max_iter": 2000,
+            "class_weight": null,
+            "solver": "liblinear"
+          }
+        },
+        "preprocess_options": {
+          "analyzer": "char",
+          "ngram_range": [
+            1,
+            2
+          ],
+          "max_features": 50000,
+          "min_df": 2,
+          "lowercase": true,
+          "combine": "difference"
+        }
+      },
+      "metric": {
+        "name": "accuracy",
+        "direction": "maximize",
+        "value": 0.6372340425531915
+      }
+    },
+    {
+      "experiment_id": "experiment_004",
+      "status": "success",
+      "decision": {
+        "action": "experiment",
+        "reason": "Best result remains difference-combined word TF-IDF at 0.6766; char n-grams in difference mode (0.6372) and concat (0.6585) both underperformed. The difference representation likely works because it captures which headline has extra tokens, but it discards shared vocabulary. A better approach: keep the winning word difference features and re-tune logistic regression with stronger regularization and a balanced class weight, since asymmetric relatedness signals may benefit from tighter feature weighting. Try C=0.5 with class_weight balanced to reduce overfitting on the sparse difference representation.",
+        "model": {
+          "name": "logistic_regression",
+          "params": {
+            "C": 0.5,
+            "max_iter": 2000,
+            "class_weight": "balanced",
+            "solver": "liblinear"
+          }
+        },
+        "preprocess_options": {
+          "analyzer": "word",
+          "ngram_range": [
+            1,
+            2
+          ],
+          "max_features": 50000,
+          "min_df": 2,
+          "lowercase": true,
+          "combine": "difference"
+        }
+      },
+      "metric": {
+        "name": "accuracy",
+        "direction": "maximize",
+        "value": 0.6829787234042554
+      }
+    },
+    {
+      "experiment_id": "experiment_005",
+      "status": "success",
+      "decision": {
+        "action": "experiment",
+        "reason": "Best so far is difference-combined word TF-IDF with C=0.5, balanced class weight (0.6830); improvements tracked with stronger regularization and balancing. Next, push regularization further (C=0.25) and switch to lbfgs which handles L2 on sparse features well, while keeping the winning preprocessing to test whether even tighter weighting helps the sparse difference representation.",
+        "model": {
+          "name": "logistic_regression",
+          "params": {
+            "C": 0.25,
+            "max_iter": 2000,
+            "class_weight": "balanced",
+            "solver": "liblinear"
+          }
+        },
+        "preprocess_options": {
+          "analyzer": "word",
+          "ngram_range": [
+            1,
+            2
+          ],
+          "max_features": 50000,
+          "min_df": 2,
+          "lowercase": true,
+          "combine": "difference"
+        }
+      },
+      "metric": {
+        "name": "accuracy",
+        "direction": "maximize",
+        "value": 0.6787234042553192
+      }
+    },
+    {
+      "experiment_id": "experiment_006",
+      "status": "success",
+      "decision": {
+        "action": "experiment",
+        "reason": "Best configuration is difference-combined word TF-IDF with balanced class weight, peaking at C=0.5 (0.6830) while C=0.25 and C=1.0 are slightly worse, so regularization optimum is near 0.5. With one step left, instead of re-tuning C again, test whether a random forest can model non-linear interactions in the winning difference feature space to potentially exceed the linear ceiling; use moderate depth and feature subsampling to control overfitting on sparse features.",
+        "model": {
+          "name": "random_forest",
+          "params": {
+            "n_estimators": 300,
+            "max_depth": 50,
+            "min_samples_leaf": 2,
+            "max_features": "sqrt",
+            "class_weight": "balanced_subsample",
+            "n_jobs": -1
+          }
+        },
+        "preprocess_options": {
+          "analyzer": "word",
+          "ngram_range": [
+            1,
+            2
+          ],
+          "max_features": 50000,
+          "min_df": 2,
+          "lowercase": true,
+          "combine": "difference"
+        }
+      },
+      "metric": {
+        "name": "accuracy",
+        "direction": "maximize",
+        "value": 0.5882978723404255
+      }
+    }
+  ],
+  "budget": {
+    "task_id": "headlines",
+    "budget_rmb": "20",
+    "spent_rmb": "0.024857",
+    "held_reserved_rmb": "0.010817",
+    "available_rmb": "19.964326",
+    "calls": 14,
+    "settled": 13,
+    "uncertain": 1,
+    "errors": 1,
+    "over_budget": false
+  },
+  "selected": {
+    "experiment_id": "experiment_004",
+    "status": "success",
+    "decision": {
+      "action": "experiment",
+      "reason": "Best result remains difference-combined word TF-IDF at 0.6766; char n-grams in difference mode (0.6372) and concat (0.6585) both underperformed. The difference representation likely works because it captures which headline has extra tokens, but it discards shared vocabulary. A better approach: keep the winning word difference features and re-tune logistic regression with stronger regularization and a balanced class weight, since asymmetric relatedness signals may benefit from tighter feature weighting. Try C=0.5 with class_weight balanced to reduce overfitting on the sparse difference representation.",
+      "model": {
+        "name": "logistic_regression",
+        "params": {
+          "C": 0.5,
+          "max_iter": 2000,
+          "class_weight": "balanced",
+          "solver": "liblinear"
+        }
+      },
+      "preprocess_options": {
+        "analyzer": "word",
+        "ngram_range": [
+          1,
+          2
+        ],
+        "max_features": 50000,
+        "min_df": 2,
+        "lowercase": true,
+        "combine": "difference"
+      }
+    },
+    "metric": {
+      "name": "accuracy",
+      "direction": "maximize",
+      "value": 0.6829787234042554
+    },
+    "artifact": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\artifacts\\headlines\\feedback27\\experiment_004"
+  },
+  "final_model": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\headlines\\feedback27\\final_model",
+  "prediction": {
+    "event": "partd.result",
+    "schema_version": 1,
+    "command": "predict",
+    "status": "success",
+    "n_predictions": 3232,
+    "output_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\headlines\\feedback27\\predictions.csv",
+    "metadata_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\headlines\\feedback27\\predictions.csv.metadata.json",
+    "source_experiment_id": "experiment_004",
+    "classes": [
+      0,
+      1
+    ],
+    "probability_columns": {},
+    "input_sha256": "f0d1b7b4077baf11b17b87204e81cbf89005691e020fd2db6b70bf31718a72e6",
+    "input_source": "partb",
+    "input_hash_kind": "features_and_ids",
+    "split": "test",
+    "preprocessor_sha256": "627735247d325ac3bb96c446004102320eb108bd0b7ed95f382a3e910fc5b1a9",
+    "partb_source_sha256": "0dad32bb325c4d26aedf44d61643acf37724ac75f1fdb3833f0f55280548d160",
+    "model_sha256": "01137b3fe89192b821f4b8a168795eac97153b38b42db35b04e49ec98966feea",
+    "versions": {
+      "python": "3.11.5",
+      "numpy": "1.26.4",
+      "scikit-learn": "1.4.2",
+      "joblib": "1.4.2",
+      "pandas": "3.0.6",
+      "scipy": "1.17.1",
+      "Pillow": "12.3.0"
+    }
+  },
+  "final_evaluation": {
+    "split": "test",
+    "metric": "accuracy",
+    "value": 0.661509900990099,
+    "n_samples": 3232,
+    "selected_experiment_id": "experiment_004",
+    "used_for_selection": false
+  }
+}

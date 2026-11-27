@@ -1,0 +1,11 @@
+{
+  "modality": "image",
+  "format": "image_folder",
+  "feature_columns": ["image_path"],
+  "metric": "accuracy",
+  "splits": {
+    "train": {"path": "train"},
+    "val": {"path": "val"},
+    "test": {"path": "test"}
+  }
+}

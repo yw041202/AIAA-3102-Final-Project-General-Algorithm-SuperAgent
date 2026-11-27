@@ -1,0 +1,16 @@
+.DS_Store
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+logs/
+.partc_state/
+runs/
+data/
+*.egg-info/
+
+# Curated review evidence includes executor logs; runtime logs remain ignored.
+!parta/evidence/released-20261122/**
+!review-evidence/feedback-20261127/**/logs/
+!review-evidence/feedback-20261127/**/logs/execution.jsonl

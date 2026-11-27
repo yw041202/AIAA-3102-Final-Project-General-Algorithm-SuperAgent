@@ -1,0 +1,29 @@
+{
+  "experiment_id": "experiment_006",
+  "status": "success",
+  "decision": {
+    "action": "experiment",
+    "reason": "Best result so far is plain random forest (0.731); the balanced/depth-20 variant regressed to 0.720, so revert toward the unconstrained baseline but tighten overfitting slightly via min_samples_leaf=3 and more trees without class weighting, keeping one-hot encoding for the low-cardinality categorical features.",
+    "model": {
+      "name": "random_forest",
+      "params": {
+        "n_estimators": 400,
+        "max_depth": null,
+        "min_samples_leaf": 3,
+        "max_features": "sqrt",
+        "class_weight": null,
+        "n_jobs": -1
+      }
+    },
+    "preprocess_options": {
+      "encoding": "onehot",
+      "numeric_columns": []
+    }
+  },
+  "metric": {
+    "name": "accuracy",
+    "direction": "maximize",
+    "value": 0.738423645320197
+  },
+  "artifact": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\artifacts\\coupon\\live_001\\experiment_006"
+}

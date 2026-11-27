@@ -1,0 +1,32 @@
+{
+  "experiment_id": "experiment_003",
+  "status": "success",
+  "decision": {
+    "action": "experiment",
+    "reason": "Baseline char-difference TF-IDF scored 0.638, modestly above majority (0.512). The task appears to require detecting subtle semantic/wording contrasts between paired headlines, which char n-grams on the difference capture only weakly. Trying word-level n-grams on the difference signal (capturing shared-meaning vs. changed-word edits) as a complementary baseline; logistic regression with slightly stronger regularization.",
+    "model": {
+      "name": "logistic_regression",
+      "params": {
+        "C": 2.0,
+        "max_iter": 1000
+      }
+    },
+    "preprocess_options": {
+      "analyzer": "word",
+      "ngram_range": [
+        1,
+        2
+      ],
+      "max_features": 50000,
+      "min_df": 2,
+      "lowercase": true,
+      "combine": "difference"
+    }
+  },
+  "metric": {
+    "name": "accuracy",
+    "direction": "maximize",
+    "value": 0.6787234042553192
+  },
+  "artifact": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\artifacts\\headlines\\live_001\\experiment_003"
+}

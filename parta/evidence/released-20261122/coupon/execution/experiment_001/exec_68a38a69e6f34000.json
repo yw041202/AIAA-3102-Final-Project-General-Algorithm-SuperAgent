@@ -1,0 +1,48 @@
+{
+  "execution": {
+    "execution_id": "exec_68a38a69e6f34000",
+    "task_id": "coupon",
+    "run_id": "live_001",
+    "script_ref": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\partd\\src\\partd\\runner.py",
+    "status": "runtime_error",
+    "exit_code": 2,
+    "stdout": "{\"event\": \"partd.result\", \"schema_version\": 1, \"command\": \"train\", \"status\": \"error\", \"error\": {\"type\": \"ValueError\", \"message\": \"Unable to parse string \\\"10PM\\\" at position 0\"}, \"stage\": \"data_preparation\", \"task_id\": \"coupon\", \"run_id\": \"live_001\", \"experiment_id\": \"experiment_001\", \"result_path\": \"D:\\\\\\u5927\\u5b66\\u5b66\\u4e60\\\\AIAA3102_Python_Programming_with_AI\\\\project\\\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\\\runs\\\\released\\\\artifacts\\\\coupon\\\\live_001\\\\experiment_001\\\\result.json\"}\n",
+    "stderr": "",
+    "stdout_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\coupon\\live_001\\execution\\experiment_001\\stdout_stderr\\partc_out_f_yu6eau.txt",
+    "stderr_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\coupon\\live_001\\execution\\experiment_001\\stdout_stderr\\partc_err_93lzchvu.txt",
+    "elapsed_seconds": 11.265999999999622,
+    "timeout_seconds": 600,
+    "error_type": "non_zero_exit",
+    "error_details": "",
+    "timestamp": "2026-11-22T09:59:35.429186+00:00",
+    "extra": {}
+  },
+  "partd_result": {
+    "event": "partd.result",
+    "schema_version": 1,
+    "command": "train",
+    "status": "error",
+    "error": {
+      "type": "ValueError",
+      "message": "Unable to parse string \"10PM\" at position 0"
+    },
+    "stage": "data_preparation",
+    "task_id": "coupon",
+    "run_id": "live_001",
+    "experiment_id": "experiment_001",
+    "result_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\artifacts\\coupon\\live_001\\experiment_001\\result.json"
+  },
+  "status": "error",
+  "execution_summary": {
+    "task_id": "coupon",
+    "n_executions": 1,
+    "n_success": 0,
+    "n_runtime_error": 1,
+    "n_timeout": 0,
+    "n_execution_error": 0
+  },
+  "executor_source": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\partc\\src\\partc\\code_executor.py",
+  "executor_sha256": "356ce38bbf294bd847af64c8a9de8635feeacebd4000e3bbd885253d1b061dab",
+  "python": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\.venv\\Scripts\\python.exe",
+  "execution_log_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\coupon\\live_001\\execution\\experiment_001\\logs\\execution.jsonl"
+}

@@ -1,0 +1,4 @@
+-r requirements.lock
+-e ./partb
+-e ./partc
+-e ./partd

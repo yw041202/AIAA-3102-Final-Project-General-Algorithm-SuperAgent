@@ -1,0 +1,8 @@
+{
+  "split": "test",
+  "metric": "accuracy",
+  "value": 0.6584158415841584,
+  "n_samples": 3232,
+  "selected_experiment_id": "experiment_003",
+  "used_for_selection": false
+}

@@ -1,0 +1,52 @@
+{
+  "coupon": {
+    "n_predictions": 2537,
+    "byte_identical": true,
+    "sha256": "058e5ea20ff7970e3d1245300739a5dc1dd2e9f0502dbb557c1ec9b634df79b7"
+  },
+  "headlines": {
+    "n_predictions": 3232,
+    "byte_identical": true,
+    "sha256": "6c15cd1d222aeea862645e045ec41632438230840b3e3695ae8f172d461793b7"
+  },
+  "released_ledger": {
+    "coupon": {
+      "task_id": "coupon",
+      "budget_rmb": "20",
+      "spent_rmb": "0.019245",
+      "held_reserved_rmb": "0.014576",
+      "available_rmb": "19.966179",
+      "calls": 10,
+      "settled": 9,
+      "uncertain": 1,
+      "errors": 1,
+      "over_budget": false
+    },
+    "headlines": {
+      "task_id": "headlines",
+      "budget_rmb": "20",
+      "spent_rmb": "0.010872",
+      "held_reserved_rmb": "0.010817",
+      "available_rmb": "19.978311",
+      "calls": 8,
+      "settled": 7,
+      "uncertain": 1,
+      "errors": 1,
+      "over_budget": false
+    }
+  },
+  "hkust_smoke_ledger": {
+    "hkust_connectivity": {
+      "task_id": "hkust_connectivity",
+      "budget_rmb": "0.1",
+      "spent_rmb": "0.000059",
+      "held_reserved_rmb": "0.000888",
+      "available_rmb": "0.099053",
+      "calls": 2,
+      "settled": 1,
+      "uncertain": 1,
+      "errors": 1,
+      "over_budget": false
+    }
+  }
+}

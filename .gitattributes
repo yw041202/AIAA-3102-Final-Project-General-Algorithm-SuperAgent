@@ -1,0 +1,8 @@
+# Preserve the exact source bytes used by the live-run integrity fingerprints.
+*.py text eol=lf
+partb/**/*.py text eol=crlf
+partc/**/*.py text eol=crlf
+# Evidence checksums refer to byte-identical original output.
+parta/evidence/** -text whitespace=cr-at-eol
+review-evidence/feedback-20261127/** -text whitespace=cr-at-eol
+*.zip binary

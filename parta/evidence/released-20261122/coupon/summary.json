@@ -1,0 +1,211 @@
+{
+  "status": "success",
+  "task_id": "coupon",
+  "run_id": "live_001",
+  "offline": false,
+  "official_result": false,
+  "source_sha256": "98a391de36c6a588a1b5a31f561ae029ce94ced830c72e772c23f308eac5494d",
+  "run_directory": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\coupon\\live_001",
+  "stop_reason": "max_steps",
+  "history": [
+    {
+      "experiment_id": "experiment_001",
+      "status": "error",
+      "error": "{\"type\": \"ValueError\", \"message\": \"Unable to parse string \\\"10PM\\\" at position 0\"}"
+    },
+    {
+      "experiment_id": "experiment_002",
+      "status": "error",
+      "error": "Unsupported preprocessing fields"
+    },
+    {
+      "experiment_id": "experiment_003",
+      "status": "success",
+      "decision": {
+        "action": "experiment",
+        "reason": "Initial baseline after two failed attempts; all features are categorical-like with few unique values, so one-hot encoding plus logistic regression with balanced-ish default is a safe starting point. The earlier parse error came from treating '10PM' as numeric, so we explicitly one-hot encode all listed columns and avoid numeric parsing.",
+        "model": {
+          "name": "logistic_regression",
+          "params": {
+            "C": 1.0,
+            "max_iter": 1000
+          }
+        },
+        "preprocess_options": {
+          "encoding": "onehot",
+          "numeric_columns": []
+        }
+      },
+      "metric": {
+        "name": "accuracy",
+        "direction": "maximize",
+        "value": 0.6640394088669951
+      }
+    },
+    {
+      "experiment_id": "experiment_004",
+      "status": "success",
+      "decision": {
+        "action": "experiment",
+        "reason": "Baseline one-hot logistic regression reached 0.664 accuracy. All features are low-cardinality categoricals with mild missingness; a nonlinear tree model can capture interactions (e.g., coupon x time x direction) better than linear logistic regression, and class_weight can address the mild imbalance.",
+        "model": {
+          "name": "random_forest",
+          "params": {
+            "n_estimators": 300,
+            "max_depth": null,
+            "min_samples_leaf": 5,
+            "max_features": "sqrt",
+            "class_weight": null,
+            "n_jobs": -1
+          }
+        },
+        "preprocess_options": {
+          "encoding": "onehot",
+          "numeric_columns": []
+        }
+      },
+      "metric": {
+        "name": "accuracy",
+        "direction": "maximize",
+        "value": 0.7310344827586207
+      }
+    },
+    {
+      "experiment_id": "experiment_005",
+      "status": "success",
+      "decision": {
+        "action": "experiment",
+        "reason": "Random forest clearly outperformed logistic regression (0.731 vs 0.664), indicating nonlinear interactions matter. Tuning the forest by using more trees with a moderate max_depth regularization and min_samples_leaf to reduce overfitting should improve further; class_weight balanced can also help with the mild label imbalance.",
+        "model": {
+          "name": "random_forest",
+          "params": {
+            "n_estimators": 500,
+            "max_depth": 20,
+            "min_samples_leaf": 10,
+            "max_features": "sqrt",
+            "class_weight": "balanced",
+            "n_jobs": -1
+          }
+        },
+        "preprocess_options": {
+          "encoding": "onehot",
+          "numeric_columns": []
+        }
+      },
+      "metric": {
+        "name": "accuracy",
+        "direction": "maximize",
+        "value": 0.7201970443349753
+      }
+    },
+    {
+      "experiment_id": "experiment_006",
+      "status": "success",
+      "decision": {
+        "action": "experiment",
+        "reason": "Best result so far is plain random forest (0.731); the balanced/depth-20 variant regressed to 0.720, so revert toward the unconstrained baseline but tighten overfitting slightly via min_samples_leaf=3 and more trees without class weighting, keeping one-hot encoding for the low-cardinality categorical features.",
+        "model": {
+          "name": "random_forest",
+          "params": {
+            "n_estimators": 400,
+            "max_depth": null,
+            "min_samples_leaf": 3,
+            "max_features": "sqrt",
+            "class_weight": null,
+            "n_jobs": -1
+          }
+        },
+        "preprocess_options": {
+          "encoding": "onehot",
+          "numeric_columns": []
+        }
+      },
+      "metric": {
+        "name": "accuracy",
+        "direction": "maximize",
+        "value": 0.738423645320197
+      }
+    }
+  ],
+  "budget": {
+    "task_id": "coupon",
+    "budget_rmb": "20",
+    "spent_rmb": "0.013216",
+    "held_reserved_rmb": "0",
+    "available_rmb": "19.986784",
+    "calls": 6,
+    "settled": 6,
+    "uncertain": 0,
+    "errors": 0,
+    "over_budget": false
+  },
+  "selected": {
+    "experiment_id": "experiment_006",
+    "status": "success",
+    "decision": {
+      "action": "experiment",
+      "reason": "Best result so far is plain random forest (0.731); the balanced/depth-20 variant regressed to 0.720, so revert toward the unconstrained baseline but tighten overfitting slightly via min_samples_leaf=3 and more trees without class weighting, keeping one-hot encoding for the low-cardinality categorical features.",
+      "model": {
+        "name": "random_forest",
+        "params": {
+          "n_estimators": 400,
+          "max_depth": null,
+          "min_samples_leaf": 3,
+          "max_features": "sqrt",
+          "class_weight": null,
+          "n_jobs": -1
+        }
+      },
+      "preprocess_options": {
+        "encoding": "onehot",
+        "numeric_columns": []
+      }
+    },
+    "metric": {
+      "name": "accuracy",
+      "direction": "maximize",
+      "value": 0.738423645320197
+    },
+    "artifact": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\artifacts\\coupon\\live_001\\experiment_006"
+  },
+  "final_model": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\coupon\\live_001\\final_model",
+  "prediction": {
+    "event": "partd.result",
+    "schema_version": 1,
+    "command": "predict",
+    "status": "success",
+    "n_predictions": 2537,
+    "output_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\coupon\\live_001\\predictions.csv",
+    "metadata_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\coupon\\live_001\\predictions.csv.metadata.json",
+    "source_experiment_id": "experiment_006",
+    "classes": [
+      0,
+      1
+    ],
+    "probability_columns": {},
+    "input_sha256": "00087144709da48364606509340535352bdfda4800437f0a5f6b5c1b1d9e75a5",
+    "input_source": "partb",
+    "input_hash_kind": "features_and_ids",
+    "split": "test",
+    "preprocessor_sha256": "3f88a244375f3f8867eca3c17d6084610048545cdd63cdfc4c1796d728b6c32e",
+    "partb_source_sha256": "0dad32bb325c4d26aedf44d61643acf37724ac75f1fdb3833f0f55280548d160",
+    "model_sha256": "6634de3fe13f15fa28c6e673ae9fe6aff563699f79c607d5e79d0abaea26a357",
+    "versions": {
+      "python": "3.11.5",
+      "numpy": "1.26.4",
+      "scikit-learn": "1.4.2",
+      "joblib": "1.4.2",
+      "pandas": "3.0.6",
+      "scipy": "1.17.1",
+      "Pillow": "12.3.0"
+    }
+  },
+  "final_evaluation": {
+    "split": "test",
+    "metric": "accuracy",
+    "value": 0.7512810405991328,
+    "n_samples": 2537,
+    "selected_experiment_id": "experiment_006",
+    "used_for_selection": false
+  }
+}

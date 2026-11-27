@@ -1,0 +1,13 @@
+{
+  "task_id": "classification_task",
+  "run_id": "run_001",
+  "data_config": "../../partb/configs/coupon.json",
+  "data_root": "../../data/coupon",
+  "output_root": "../../runs",
+  "budget_rmb": "20",
+  "max_steps": 6,
+  "patience": 3,
+  "seed": 42,
+  "execution_timeout": 300,
+  "max_tokens": 1024
+}
