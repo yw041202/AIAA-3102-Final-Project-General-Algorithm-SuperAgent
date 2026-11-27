@@ -1,0 +1,30 @@
+{
+  "status": "failed",
+  "task_id": "headlines",
+  "run_id": "audit26",
+  "offline": false,
+  "official_result": false,
+  "source_sha256": "98a391de36c6a588a1b5a31f561ae029ce94ced830c72e772c23f308eac5494d",
+  "run_directory": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\headlines\\audit26",
+  "stop_reason": "error",
+  "history": [
+    {
+      "experiment_id": "experiment_001",
+      "status": "error",
+      "error": "Unsupported preprocessing fields"
+    }
+  ],
+  "budget": {
+    "task_id": "headlines",
+    "budget_rmb": "20",
+    "spent_rmb": "0.010872",
+    "held_reserved_rmb": "0.010817",
+    "available_rmb": "19.978311",
+    "calls": 8,
+    "settled": 7,
+    "uncertain": 1,
+    "errors": 1,
+    "over_budget": false
+  },
+  "error": "No successful candidate; no predictions produced"
+}

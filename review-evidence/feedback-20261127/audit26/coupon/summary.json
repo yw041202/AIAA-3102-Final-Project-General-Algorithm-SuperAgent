@@ -1,0 +1,168 @@
+{
+  "status": "success",
+  "task_id": "coupon",
+  "run_id": "audit26",
+  "offline": false,
+  "official_result": false,
+  "source_sha256": "98a391de36c6a588a1b5a31f561ae029ce94ced830c72e772c23f308eac5494d",
+  "run_directory": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\coupon\\audit26",
+  "stop_reason": "error",
+  "history": [
+    {
+      "experiment_id": "experiment_001",
+      "status": "success",
+      "decision": {
+        "action": "experiment",
+        "reason": "Initial baseline for tabular classification: one-hot encode all categorical columns and use logistic regression; gives a reference accuracy before tuning or trying tree ensembles.",
+        "model": {
+          "name": "logistic_regression",
+          "params": {
+            "C": 1.0,
+            "max_iter": 1000
+          }
+        },
+        "preprocess_options": {
+          "encoding": "onehot"
+        }
+      },
+      "metric": {
+        "name": "accuracy",
+        "direction": "maximize",
+        "value": 0.6640394088669951
+      }
+    },
+    {
+      "experiment_id": "experiment_002",
+      "status": "success",
+      "decision": {
+        "action": "experiment",
+        "reason": "Logistic regression one-hot baseline reached 0.664. All features are categorical/low-cardinality; a tree ensemble with limited depth handles interactions and the implicit missing category in ordinal/onehot encodings better, likely improving accuracy.",
+        "model": {
+          "name": "random_forest",
+          "params": {
+            "n_estimators": 300,
+            "max_depth": 12,
+            "min_samples_leaf": 5,
+            "class_weight": "balanced",
+            "n_jobs": -1
+          }
+        },
+        "preprocess_options": {
+          "encoding": "ordinal"
+        }
+      },
+      "metric": {
+        "name": "accuracy",
+        "direction": "maximize",
+        "value": 0.7344827586206897
+      }
+    },
+    {
+      "experiment_id": "experiment_003",
+      "status": "success",
+      "decision": {
+        "action": "experiment",
+        "reason": "Random forest with ordinal encoding improved accuracy from 0.664 to 0.734, showing nonlinear interactions matter. Tuning the forest by allowing deeper trees while controlling leaf size may capture more signal without heavy overfitting; class imbalance is mild so keeping balanced weighting is reasonable.",
+        "model": {
+          "name": "random_forest",
+          "params": {
+            "n_estimators": 500,
+            "max_depth": 16,
+            "min_samples_leaf": 2,
+            "max_features": "sqrt",
+            "class_weight": "balanced",
+            "n_jobs": -1
+          }
+        },
+        "preprocess_options": {
+          "encoding": "ordinal"
+        }
+      },
+      "metric": {
+        "name": "accuracy",
+        "direction": "maximize",
+        "value": 0.7453201970443349
+      }
+    }
+  ],
+  "budget": {
+    "task_id": "coupon",
+    "budget_rmb": "20",
+    "spent_rmb": "0.019245",
+    "held_reserved_rmb": "0.014576",
+    "available_rmb": "19.966179",
+    "calls": 10,
+    "settled": 9,
+    "uncertain": 1,
+    "errors": 1,
+    "over_budget": false
+  },
+  "selected": {
+    "experiment_id": "experiment_003",
+    "status": "success",
+    "decision": {
+      "action": "experiment",
+      "reason": "Random forest with ordinal encoding improved accuracy from 0.664 to 0.734, showing nonlinear interactions matter. Tuning the forest by allowing deeper trees while controlling leaf size may capture more signal without heavy overfitting; class imbalance is mild so keeping balanced weighting is reasonable.",
+      "model": {
+        "name": "random_forest",
+        "params": {
+          "n_estimators": 500,
+          "max_depth": 16,
+          "min_samples_leaf": 2,
+          "max_features": "sqrt",
+          "class_weight": "balanced",
+          "n_jobs": -1
+        }
+      },
+      "preprocess_options": {
+        "encoding": "ordinal"
+      }
+    },
+    "metric": {
+      "name": "accuracy",
+      "direction": "maximize",
+      "value": 0.7453201970443349
+    },
+    "artifact": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\artifacts\\coupon\\audit26\\experiment_003"
+  },
+  "final_model": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\coupon\\audit26\\final_model",
+  "prediction": {
+    "event": "partd.result",
+    "schema_version": 1,
+    "command": "predict",
+    "status": "success",
+    "n_predictions": 2537,
+    "output_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\coupon\\audit26\\predictions.csv",
+    "metadata_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\coupon\\audit26\\predictions.csv.metadata.json",
+    "source_experiment_id": "experiment_003",
+    "classes": [
+      0,
+      1
+    ],
+    "probability_columns": {},
+    "input_sha256": "00087144709da48364606509340535352bdfda4800437f0a5f6b5c1b1d9e75a5",
+    "input_source": "partb",
+    "input_hash_kind": "features_and_ids",
+    "split": "test",
+    "preprocessor_sha256": "690e822c965cd07983022bfffe415af6d7147d02d4a386421b41fab72636d5c0",
+    "partb_source_sha256": "0dad32bb325c4d26aedf44d61643acf37724ac75f1fdb3833f0f55280548d160",
+    "model_sha256": "81e64f66b0c01b7ec4c4d228c1499465159c92fda38bd6e5f7685b696b3fe128",
+    "versions": {
+      "python": "3.11.5",
+      "numpy": "1.26.4",
+      "scikit-learn": "1.4.2",
+      "joblib": "1.4.2",
+      "pandas": "3.0.6",
+      "scipy": "1.17.1",
+      "Pillow": "12.3.0"
+    }
+  },
+  "final_evaluation": {
+    "split": "test",
+    "metric": "accuracy",
+    "value": 0.7433977138352384,
+    "n_samples": 2537,
+    "selected_experiment_id": "experiment_003",
+    "used_for_selection": false
+  }
+}

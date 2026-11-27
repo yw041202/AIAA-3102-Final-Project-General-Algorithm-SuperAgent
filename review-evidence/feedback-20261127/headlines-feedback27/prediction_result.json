@@ -1,0 +1,64 @@
+{
+  "execution": {
+    "execution_id": "exec_9fc68b29d4344edd",
+    "task_id": "headlines",
+    "run_id": "feedback27",
+    "script_ref": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\integration-review-20261126\\partd\\src\\partd\\runner.py",
+    "status": "success",
+    "exit_code": 0,
+    "stdout": "{\"event\": \"partd.result\", \"schema_version\": 1, \"command\": \"predict\", \"status\": \"success\", \"n_predictions\": 3232, \"output_path\": \"D:\\\\\\u5927\\u5b66\\u5b66\\u4e60\\\\AIAA3102_Python_Programming_with_AI\\\\project\\\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\\\runs\\\\released\\\\headlines\\\\feedback27\\\\predictions.csv\", \"metadata_path\": \"D:\\\\\\u5927\\u5b66\\u5b66\\u4e60\\\\AIAA3102_Python_Programming_with_AI\\\\project\\\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\\\runs\\\\released\\\\headlines\\\\feedback27\\\\predictions.csv.metadata.json\", \"source_experiment_id\": \"experiment_004\", \"classes\": [0, 1], \"probability_columns\": {}, \"input_sha256\": \"f0d1b7b4077baf11b17b87204e81cbf89005691e020fd2db6b70bf31718a72e6\", \"input_source\": \"partb\", \"input_hash_kind\": \"features_and_ids\", \"split\": \"test\", \"preprocessor_sha256\": \"627735247d325ac3bb96c446004102320eb108bd0b7ed95f382a3e910fc5b1a9\", \"partb_source_sha256\": \"0dad32bb325c4d26aedf44d61643acf37724ac75f1fdb3833f0f55280548d160\", \"model_sha256\": \"01137b3fe89192b821f4b8a168795eac97153b38b42db35b04e49ec98966feea\", \"versions\": {\"python\": \"3.11.5\", \"numpy\": \"1.26.4\", \"scikit-learn\": \"1.4.2\", \"joblib\": \"1.4.2\", \"pandas\": \"3.0.6\", \"scipy\": \"1.17.1\", \"Pillow\": \"12.3.0\"}}\n",
+    "stderr": "",
+    "stdout_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\headlines\\feedback27\\prediction_execution\\stdout_stderr\\partc_out_uz9_oxvj.txt",
+    "stderr_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\headlines\\feedback27\\prediction_execution\\stdout_stderr\\partc_err_tqts4jrm.txt",
+    "elapsed_seconds": 11.25,
+    "timeout_seconds": 600,
+    "error_type": null,
+    "error_details": null,
+    "timestamp": "2026-11-27T08:46:52.759229+00:00",
+    "extra": {}
+  },
+  "partd_result": {
+    "event": "partd.result",
+    "schema_version": 1,
+    "command": "predict",
+    "status": "success",
+    "n_predictions": 3232,
+    "output_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\headlines\\feedback27\\predictions.csv",
+    "metadata_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\headlines\\feedback27\\predictions.csv.metadata.json",
+    "source_experiment_id": "experiment_004",
+    "classes": [
+      0,
+      1
+    ],
+    "probability_columns": {},
+    "input_sha256": "f0d1b7b4077baf11b17b87204e81cbf89005691e020fd2db6b70bf31718a72e6",
+    "input_source": "partb",
+    "input_hash_kind": "features_and_ids",
+    "split": "test",
+    "preprocessor_sha256": "627735247d325ac3bb96c446004102320eb108bd0b7ed95f382a3e910fc5b1a9",
+    "partb_source_sha256": "0dad32bb325c4d26aedf44d61643acf37724ac75f1fdb3833f0f55280548d160",
+    "model_sha256": "01137b3fe89192b821f4b8a168795eac97153b38b42db35b04e49ec98966feea",
+    "versions": {
+      "python": "3.11.5",
+      "numpy": "1.26.4",
+      "scikit-learn": "1.4.2",
+      "joblib": "1.4.2",
+      "pandas": "3.0.6",
+      "scipy": "1.17.1",
+      "Pillow": "12.3.0"
+    }
+  },
+  "status": "success",
+  "execution_summary": {
+    "task_id": "headlines",
+    "n_executions": 1,
+    "n_success": 1,
+    "n_runtime_error": 0,
+    "n_timeout": 0,
+    "n_execution_error": 0
+  },
+  "executor_source": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\integration-review-20261126\\partc\\src\\partc\\code_executor.py",
+  "executor_sha256": "356ce38bbf294bd847af64c8a9de8635feeacebd4000e3bbd885253d1b061dab",
+  "python": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\integration-review-20261126\\.venv\\Scripts\\python.exe",
+  "execution_log_path": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\headlines\\feedback27\\prediction_execution\\logs\\execution.jsonl"
+}

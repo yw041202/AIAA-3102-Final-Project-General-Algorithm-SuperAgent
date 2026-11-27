@@ -4,6 +4,8 @@
 
 **Live acceptance:** both released tasks completed on 2026-11-22; 142 tests passed. [Results, downloadable model bundles and B/C/D review checklist](LIVE_RESULTS_ZH.md).
 
+**2026-11-27 review follow-up:** [Planner contract/error feedback repair, 184 passing tests, a new autonomous Headlines run and per-call ledger reconciliation](../PLANNER_FEEDBACK_AND_LEDGER_20261127_ZH.md). The November 22 artifacts remain historical evidence for their original source version.
+
 Run commands from the repository root with **CPython 3.11.5** for saved-model reproduction. See [locked environment instructions](../ENVIRONMENT.md). Install B/C/D into the same interpreter used by the executor:
 
 ```powershell

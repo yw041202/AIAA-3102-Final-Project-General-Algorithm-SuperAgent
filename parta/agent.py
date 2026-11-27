@@ -14,6 +14,7 @@ from partc import BudgetManager, ChatMessage, StructuredLogger, ZhizengzengLLMCl
 from partd.c_executor import execute_via_c
 from partd.common import identifier
 from partd.metrics import DIRECTIONS
+from .decisions import DecisionValidationError, decision_contract, parse_decision
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -112,32 +113,6 @@ are available. Stop when further experiments are unlikely to help. Final selecti
 automatically the best successful validation metric (first candidate wins ties)."""
 
 
-def parse_decision(text, modality):
-    decision = json.loads(text)
-    if not isinstance(decision, dict) or not isinstance(decision.get("reason"), str) or not decision["reason"].strip():
-        raise ValueError("Decision requires a nonempty reason")
-    if decision.get("action") == "stop":
-        if set(decision) != {"action", "reason"}:
-            raise ValueError("stop accepts action/reason only")
-        return decision
-    if decision.get("action") != "experiment" or set(decision) != {"action", "reason", "model", "preprocess_options"}:
-        raise ValueError("Expected experiment with action/reason/model/preprocess_options")
-    model = decision["model"]
-    supported = {"logistic_regression": {"C", "max_iter", "class_weight", "solver"},
-                 "random_forest": {"n_estimators", "max_depth", "min_samples_leaf", "max_features", "class_weight", "n_jobs"}}
-    if not isinstance(model, dict) or set(model) != {"name", "params"} or model["name"] not in supported:
-        raise ValueError("Unsupported model or model fields")
-    if not isinstance(model["params"], dict) or set(model["params"]) - supported[model["name"]]:
-        raise ValueError("Unsupported model parameters")
-    options = decision["preprocess_options"]
-    allowed = {"encoding", "numeric_columns"} if modality == "tabular" else {
-        "analyzer", "ngram_range", "max_features", "min_df", "lowercase", "combine"}
-    if not isinstance(options, dict) or set(options) - allowed:
-        raise ValueError("Unsupported preprocessing fields")
-    # Invalid parameter values are returned by D as experimental feedback.
-    json.dumps(decision, allow_nan=False)
-    return decision
-
 
 class LLMPlanner:
     def __init__(self, config, directory, env_file=None):
@@ -157,7 +132,9 @@ class LLMPlanner:
         self.config = config
 
     def propose(self, context):
-        return self.client.chat([ChatMessage.system(SYSTEM), ChatMessage.user(json.dumps(context, ensure_ascii=False))],
+        contract = decision_contract(context.get("data", {}).get("modality", "tabular"))
+        prompt = SYSTEM + "\nDecision contract (examples show syntax, not a mandatory plan):\n" + json.dumps(contract, ensure_ascii=False)
+        return self.client.chat([ChatMessage.system(prompt), ChatMessage.user(json.dumps(context, ensure_ascii=False))],
                                 task_id=self.config["task_id"], run_id=self.config["run_id"],
                                 max_tokens=self.config["max_tokens"], retries=0).to_dict()
 
@@ -242,6 +219,8 @@ def run(config, *, planner=None, env_file=None, executor=execute_via_c, offline=
                     stale += 1
             except (ValueError, TypeError, KeyError, RuntimeError, OSError) as exc:
                 entry = {"experiment_id": experiment_id, "status": "error", "error": str(exc)[:3000]}
+                if isinstance(exc, DecisionValidationError):
+                    entry["validation_error"] = exc.feedback
                 stale += 1
             history.append(entry)
             record("experiment_feedback", **entry)

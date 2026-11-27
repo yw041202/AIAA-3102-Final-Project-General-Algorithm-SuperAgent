@@ -1,0 +1,34 @@
+{
+  "experiment_id": "experiment_004",
+  "status": "success",
+  "decision": {
+    "action": "experiment",
+    "reason": "Best result remains difference-combined word TF-IDF at 0.6766; char n-grams in difference mode (0.6372) and concat (0.6585) both underperformed. The difference representation likely works because it captures which headline has extra tokens, but it discards shared vocabulary. A better approach: keep the winning word difference features and re-tune logistic regression with stronger regularization and a balanced class weight, since asymmetric relatedness signals may benefit from tighter feature weighting. Try C=0.5 with class_weight balanced to reduce overfitting on the sparse difference representation.",
+    "model": {
+      "name": "logistic_regression",
+      "params": {
+        "C": 0.5,
+        "max_iter": 2000,
+        "class_weight": "balanced",
+        "solver": "liblinear"
+      }
+    },
+    "preprocess_options": {
+      "analyzer": "word",
+      "ngram_range": [
+        1,
+        2
+      ],
+      "max_features": 50000,
+      "min_df": 2,
+      "lowercase": true,
+      "combine": "difference"
+    }
+  },
+  "metric": {
+    "name": "accuracy",
+    "direction": "maximize",
+    "value": 0.6829787234042554
+  },
+  "artifact": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released\\artifacts\\headlines\\feedback27\\experiment_004"
+}

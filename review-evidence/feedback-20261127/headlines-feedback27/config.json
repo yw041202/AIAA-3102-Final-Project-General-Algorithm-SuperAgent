@@ -1,0 +1,15 @@
+{
+  "task_id": "headlines",
+  "run_id": "feedback27",
+  "data_config": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\integration-review-20261126\\partb\\configs\\headlines.json",
+  "data_root": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\final_project_tasks\\final_project_tasks\\headlines_ctr_clean",
+  "output_root": "D:\\大学学习\\AIAA3102_Python_Programming_with_AI\\project\\AIAA-3102-Final-Project-General-Algorithm-SuperAgent\\runs\\released",
+  "budget_rmb": "20",
+  "llm_model": "DeepSeek-V4.1-Flash",
+  "max_steps": 6,
+  "patience": 3,
+  "seed": 42,
+  "execution_timeout": 600,
+  "max_tokens": 2048,
+  "final_evaluation": true
+}
