@@ -55,9 +55,14 @@ def train(request_path):
         request = read_json(request_path)
         if not isinstance(request, dict) or request.get("schema_version") != 1:
             raise ValueError("request.schema_version must be 1")
-        allowed = {"schema_version", "task_id", "run_id", "experiment_id", "data", "model", "metrics", "seed", "preprocessing", "output_dir"}
+        allowed = {"schema_version", "task_id", "run_id", "experiment_id", "data", "model", "metrics", "seed", "preprocessing", "output_dir", "vision"}
         if set(request) - allowed:
             raise ValueError(f"unknown request fields: {sorted(set(request) - allowed)}")
+        if isinstance(request.get("model"), dict) and request["model"].get("name") == "frozen_vision":
+            from .vision_pipeline import train_image
+            return train_image(request_path)
+        if "vision" in request:
+            raise ValueError("vision settings require model.name=frozen_vision")
         context = {name: identifier(request[name], name) for name in ("task_id", "run_id", "experiment_id")}
         root = resolve_path(request["output_dir"], request_path.parent)
         experiment_dir = root / context["task_id"] / context["run_id"] / context["experiment_id"]

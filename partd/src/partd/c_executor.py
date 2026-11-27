@@ -11,7 +11,7 @@ from .common import identifier, read_json, sha256, write_json
 def execute_via_c(arguments, *, partc_root=None, workdir, task_id, run_id, timeout_seconds=120, python=None):
     identifier(task_id, "task_id")
     identifier(run_id, "run_id")
-    if arguments and arguments[0] == "train" and "--request" in arguments:
+    if arguments and arguments[0] in {"train", "vision-extract", "vision-fit"} and "--request" in arguments:
         request = read_json(arguments[arguments.index("--request") + 1])
         if request.get("task_id") != task_id or request.get("run_id") != run_id:
             raise ValueError("C task_id/run_id must match the D training request")

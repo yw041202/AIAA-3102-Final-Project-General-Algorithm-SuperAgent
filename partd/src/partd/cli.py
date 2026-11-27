@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 
-from .common import error_result
+from .common import error_result, read_json
 from .prediction import predict
 from .training import train
 
@@ -22,10 +22,35 @@ def main(argv=None):
     prediction.add_argument("--partb-root", help="Part B package or repository root if not installed")
     prediction.add_argument("--output", required=True)
     prediction.add_argument("--include-probabilities", action="store_true")
+    for command in ("vision-extract", "vision-fit"):
+        commands.add_parser(command).add_argument("--request", required=True)
+    image_prediction = commands.add_parser("vision-predict")
+    image_prediction.add_argument("--artifact", required=True)
+    image_prediction.add_argument("--data-root", required=True)
+    image_prediction.add_argument("--output", required=True)
+    image_prediction.add_argument("--split", default="test")
+    image_prediction.add_argument("--partb-root")
+    image_prediction.add_argument("--batch-size", type=int, default=16)
+    image_prediction.add_argument("--include-probabilities", action="store_true")
+    commands.add_parser("vision-capabilities")
+    commands.add_parser("vision-suggest").add_argument("--request", required=True)
     args = parser.parse_args(argv)
     try:
         if args.command == "train":
             result = train(args.request)
+        elif args.command in {"vision-capabilities", "vision-suggest"}:
+            from .vision_policy import capabilities, suggest
+            value = capabilities() if args.command == "vision-capabilities" else suggest(read_json(args.request))
+            result = {"event": "partd.result", "schema_version": 1, "command": args.command,
+                      "status": "success", "capabilities" if args.command == "vision-capabilities" else "suggestion": value}
+        elif args.command in {"vision-extract", "vision-fit"}:
+            from .vision import extract_features, fit_head
+            result = (extract_features if args.command == "vision-extract" else fit_head)(args.request)
+        elif args.command == "vision-predict":
+            from .vision import predict_images
+            result = predict_images(args.artifact, args.data_root, args.output, split=args.split,
+                                    partb_root=args.partb_root, batch_size=args.batch_size,
+                                    include_probabilities=args.include_probabilities)
         else:
             result = predict(args.artifact, args.input, args.output, include_probabilities=args.include_probabilities,
                              data_root=args.data_root, config_path=args.config, split=args.split, partb_root=args.partb_root)

@@ -1,10 +1,10 @@
-# Part D V0.2：训练、验证、模型保存与独立预测
+# Part D 训练验证与独立预测
 
-这是 11 月 12 日接口与 11 月 18 日本地开发节点的实现。保留数值 CSV 入口，另正式调用 Part B 的表格、文本读取与预处理（含 NPY、类别列、TF-IDF/CSR），保存完整候选方案，再由独立进程从原始输入预测；已经接入 C 的执行器。
+提供数值、B 表格/文本与可选冻结图像的单候选实验工具，完成训练、指定验证指标、模型保存加载及独立预测，并接入 C 执行器。A 决定实验配置、下一步动作和最终候选。
 
-本模块不进行最终方案选择。A 决定实验配置、下一步动作和最终候选编号。B 的公开接口已接入并验证；A 主流程按小组安排于 11 月 19 日整合，A/B 人工交叉验收仍待执行。开发示例全部使用模拟数据，不属于课程正式结果。
+图像入口沿用 train/predict，model.name=frozen_vision，可选 ResNet18 或 EfficientNet-B0，以及 LR/SVM 分类头。特征缓存、反馈、可调用搜索建议、权重来源和 A/B/C 对接见 [图像交付说明](VISION.md)。当前 A 版本还需接入图像分支；D/B/C 验收不等于完整 Agent 自主运行。
 
-最新入口：[A 整合说明](A_QUICKSTART.md)、[接口说明](HANDOFF.md)、[节点清单](MILESTONES_20261117.md)、[V0.2 验收记录](ACCEPTANCE_20261117.md)。
+入口：[图像接口与策略](VISION.md)、[通用交接](HANDOFF.md)、[本次验收](ACCEPTANCE_VISION.md)。原 [A 整合说明](A_QUICKSTART.md)、[节点清单](MILESTONES_20261117.md) 和 [V0.2 验收记录](ACCEPTANCE_20261117.md) 保留为历史记录。
 
 ## 完整 B/D/C 复现
 
@@ -74,7 +74,7 @@ python -m pip install -e . --no-deps --no-build-isolation
 
 ## 支持的能力
 
-- 候选模型：`logistic_regression`、`random_forest`；参数通过请求传入。
+- 表格/文本候选：`logistic_regression`、`random_forest`；图像候选 `frozen_vision` 的骨干、LR/SVM 头及参数由请求指定。本次图像交付不包含另行开发的表格/文本模型扩展。
 - 指标：accuracy、balanced_accuracy、f1_macro、precision_macro、recall_macro、roc_auc、log_loss。主指标可配置，结果标明 maximize/minimize。ROC AUC 和 log loss 使用概率；二分类正类为保存的 `classes[1]`。
 - 默认 numeric 预处理：仅在训练部分拟合的中位数填补；逻辑回归另有标准化。拟合后的处理和分类器作为同一个 Pipeline 保存。
 - partb 模式：调用 B 的加载与 train-only 预处理，保留 CSR，不重复拟合 D 数值处理；保存 B 处理器、来源、任务配置和 D 模型，独立预测仅 load/transform。
@@ -111,7 +111,7 @@ output_dir/task_id/run_id/experiment_id/
 
 - 已覆盖：训练成功、预测成功、训练配置失败的非零退出与结构化错误。
 - 未修改 C 的计费模块，也不调用 LLM。
-- C 的原版 Windows 超时清理问题仍待 C 修复。适配器不掩盖这个异常，不声称已经具备 Windows 超时/子进程清理能力。不要把正常执行联调通过当作全部执行器边界验收通过。
+- 超时与子进程清理由实际部署的 C 执行器负责，需在目标环境交叉验收。骨干提取与最终原图预测都应给足超时。
 
 ## 测试
 
@@ -129,10 +129,10 @@ $env:PARTC_ROOT = (Resolve-Path .deps/partc/partc).Path
 
 ## 当前边界
 
-- B 公开接口已技术对齐；A 主流程和人工交叉验收待 11 月 19 日整合。请求约束见 schemas/train_request.schema.json。
-- 表格、文本及 B 处理状态已接入；图像训练属于后续 11 月 24 日范围，本版明确拒绝 image 请求。
+- B 公开接口已对齐；图像使用原图路径。请求约束见 schemas/train_request.schema.json。
+- 图像通过 frozen_vision 候选接入统一 train/predict，A 的图像规划、反馈与最终完整自主运行仍待对接。
 - 课程数据未包含在交付中；正式自主运行及官方输出格式仍按公告落实。
-- 未进行自动搜索、最终选型或测试集评价；候选模型保存不表示已经被选为最终模型。
+- D 可返回搜索建议但不替 A 进行最终选型；候选模型保存不表示已被选为最终模型。
 - 当前验收是本机源码环境和独立进程验证，不等于 11 月 27 日的跨机器干净环境验收。
 
 Git 分支只保留源码、契约、精简验证摘要和 V0.1 的小型兼容性测试模型；完整运行产物由 Demo 写到已忽略的 runs/。历史摘要中的本机目录已移除，分支中的生成文件均来自模拟数据。

@@ -1,6 +1,6 @@
-# Part D V0.2 交接说明
+# Part D 交接说明
 
-状态：已接入 B 的表格/文本 API，完成正式 D 入口与 C 的本地联调。A 主流程预计 11 月 19 日整合，人工交叉确认待 A/B 执行。全部验收示例为模拟输入。
+状态：已有 B 表格/文本接口；新增图像统一 train/predict、冻结特征缓存及搜索建议。图像请求将 model.name 设为 frozen_vision，其完整配置、返回字段、策略与 A/B/C 接入步骤见 [VISION.md](VISION.md)。A 的图像分支尚待接入。下文原有表格/文本契约保持兼容。
 
 ## 推荐：A → D → B
 
@@ -71,7 +71,7 @@ python run_partd.py predict --artifact <候选目录> --data-root <原始数据�
 
 特征允许空值或 NaN，不允许无穷值和普通文本。列名唯一，预测时按保存的特征名取列，即使 CSV 列顺序改变也能保持一致。feature_columns 可省略，届时从训练文件中排除 ID 和 label 后推导。
 
-numeric 模式拟合数值填补及必要缩放；passthrough 用于已处理数值 CSV。需要 B 的真实加载器、类别/文本转换、稀疏矩阵和状态打包时，使用上面的 partb 模式。图像训练仍属于后续阶段。
+numeric 模式拟合数值填补及必要缩放；passthrough 用于已处理数值 CSV。B 的表格/文本使用上面的 partb 模式；图像使用 VISION.md 中的 frozen_vision 候选。
 
 ## D → A：实验结果
 
@@ -126,7 +126,7 @@ response = execute_via_c(
 
 本适配器负责显式写入一次 C execution 日志，A 不应再把同一次执行重复记账。A 若直接调用 C 而跳过此适配器，应自行承担日志记录与 D 结果解析。
 
-参考 C 提交：877625a2216d2a6bd5410e860ccf8006baea5748；本机没有修改 C。Windows 超时清理仍是已知上游待办，适配器不承诺对其修复。
+适配器不修改 C 源码。实际部署的 C 提交和目标平台应由 C 统一锁定并验收，特别是超时后的进程清理。
 
 ## 待全组交叉验收
 

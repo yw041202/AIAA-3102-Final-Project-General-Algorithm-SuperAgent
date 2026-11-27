@@ -1,49 +1,355 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Part D train request v1 (implementation 0.2.0)",
+  "title": "Part D train request v1 with optional frozen vision",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "task_id", "run_id", "experiment_id", "data", "model", "output_dir"],
+  "required": [
+    "schema_version",
+    "task_id",
+    "run_id",
+    "experiment_id",
+    "data",
+    "model",
+    "output_dir"
+  ],
   "properties": {
-    "schema_version": {"const": 1},
-    "task_id": {"$ref": "#/$defs/id"},
-    "run_id": {"$ref": "#/$defs/id"},
-    "experiment_id": {"$ref": "#/$defs/id"},
-    "output_dir": {"type": "string", "minLength": 1},
-    "seed": {"type": "integer", "minimum": 0, "maximum": 4294967295},
-    "preprocessing": {"enum": ["numeric", "passthrough", "partb"]},
+    "schema_version": {
+      "const": 1
+    },
+    "task_id": {
+      "$ref": "#/$defs/id"
+    },
+    "run_id": {
+      "$ref": "#/$defs/id"
+    },
+    "experiment_id": {
+      "$ref": "#/$defs/id"
+    },
+    "output_dir": {
+      "type": "string",
+      "minLength": 1
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "preprocessing": {
+      "enum": [
+        "numeric",
+        "passthrough",
+        "partb"
+      ]
+    },
+    "vision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "weights_root",
+        "cache_dir"
+      ],
+      "properties": {
+        "weights_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cache_dir": {
+          "type": "string",
+          "minLength": 1
+        },
+        "threads": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "batch_size": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
     "model": {
-      "type": "object", "required": ["name"], "additionalProperties": false,
-      "properties": {"name": {"enum": ["logistic_regression", "random_forest"]}, "params": {"type": "object"}}
+      "oneOf": [
+        {
+          "$ref": "#/$defs/basic_model"
+        },
+        {
+          "$ref": "#/$defs/vision_model"
+        }
+      ]
     },
     "metrics": {
-      "type": "object", "required": ["primary"], "additionalProperties": false,
-      "properties": {"primary": {"$ref": "#/$defs/metric"}, "additional": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/metric"}}}
-    },
-    "data": {"oneOf": [{"$ref": "#/$defs/numeric"}, {"$ref": "#/$defs/partb"}]}
-  },
-  "allOf": [{
-    "if": {"properties": {"data": {"required": ["source"], "properties": {"source": {"const": "partb"}}}}},
-    "then": {"properties": {"preprocessing": {"const": "partb"}}},
-    "else": {"properties": {"preprocessing": {"enum": ["numeric", "passthrough"]}}}
-  }],
-  "$defs": {
-    "id": {"type": "string", "minLength": 1, "maxLength": 100, "description": "Runtime also rejects unsafe/reserved path components."},
-    "metric": {"enum": ["accuracy", "balanced_accuracy", "f1_macro", "precision_macro", "recall_macro", "roc_auc", "log_loss"]},
-    "numeric": {
-      "type": "object", "additionalProperties": false, "required": ["train_csv", "validation_csv"],
+      "type": "object",
+      "required": [
+        "primary"
+      ],
+      "additionalProperties": false,
       "properties": {
-        "source": {"const": "numeric_csv"}, "train_csv": {"type": "string", "minLength": 1},
-        "validation_csv": {"type": "string", "minLength": 1}, "target_column": {"type": "string"},
-        "id_column": {"type": "string"}, "feature_columns": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
+        "primary": {
+          "$ref": "#/$defs/metric"
+        },
+        "additional": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/metric"
+          }
+        }
+      }
+    },
+    "data": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/numeric"
+        },
+        {
+          "$ref": "#/$defs/partb"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "data": {
+            "required": [
+              "source"
+            ],
+            "properties": {
+              "source": {
+                "const": "partb"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "preprocessing": {
+            "const": "partb"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "preprocessing": {
+            "enum": [
+              "numeric",
+              "passthrough"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "model": {
+            "properties": {
+              "name": {
+                "const": "frozen_vision"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "vision"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/partb"
+          }
+        }
+      },
+      "else": {
+        "not": {
+          "required": [
+            "vision"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "basic_model": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "enum": [
+            "logistic_regression",
+            "random_forest"
+          ]
+        },
+        "params": {
+          "type": "object"
+        }
+      }
+    },
+    "vision_model": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "const": "frozen_vision"
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "backbone": {
+              "enum": [
+                "resnet18",
+                "efficientnet_b0"
+              ]
+            },
+            "preprocessing": {
+              "enum": [
+                "official",
+                "resize224"
+              ]
+            },
+            "feature_scaling": {
+              "enum": [
+                "l2",
+                "standard",
+                "none"
+              ]
+            },
+            "head": {
+              "type": "object",
+              "required": [
+                "name"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "enum": [
+                    "logistic_regression",
+                    "linear_svm"
+                  ]
+                },
+                "params": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "C": {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    },
+                    "tol": {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    },
+                    "max_iter": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "class_weight": {
+                      "enum": [
+                        null,
+                        "balanced"
+                      ]
+                    },
+                    "calibrate": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "description": "Runtime also rejects unsafe/reserved path components."
+    },
+    "metric": {
+      "enum": [
+        "accuracy",
+        "balanced_accuracy",
+        "f1_macro",
+        "precision_macro",
+        "recall_macro",
+        "roc_auc",
+        "log_loss"
+      ]
+    },
+    "numeric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "train_csv",
+        "validation_csv"
+      ],
+      "properties": {
+        "source": {
+          "const": "numeric_csv"
+        },
+        "train_csv": {
+          "type": "string",
+          "minLength": 1
+        },
+        "validation_csv": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_column": {
+          "type": "string"
+        },
+        "id_column": {
+          "type": "string"
+        },
+        "feature_columns": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        }
       }
     },
     "partb": {
-      "type": "object", "additionalProperties": false, "required": ["source", "config_path", "data_root"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "config_path",
+        "data_root"
+      ],
       "properties": {
-        "source": {"const": "partb"}, "config_path": {"type": "string", "minLength": 1},
-        "data_root": {"type": "string", "minLength": 1}, "partb_root": {"type": "string", "minLength": 1},
-        "preprocess_options": {"type": "object", "description": "B validates options for the selected modality."}
+        "source": {
+          "const": "partb"
+        },
+        "config_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "data_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "partb_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "preprocess_options": {
+          "type": "object",
+          "description": "B validates options for the selected modality."
+        }
       }
     }
   }

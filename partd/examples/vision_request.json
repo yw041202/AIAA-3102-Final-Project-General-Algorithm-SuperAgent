@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "task_id": "new_image_task",
+  "run_id": "autonomous_run_001",
+  "experiment_id": "candidate_001",
+  "data": {
+    "source": "partb",
+    "config_path": "../../data/new_image_task/data_config.json",
+    "data_root": "../../data/new_image_task",
+    "partb_root": "../../partb"
+  },
+  "model": {
+    "name": "frozen_vision",
+    "params": {
+      "backbone": "resnet18",
+      "preprocessing": "official",
+      "feature_scaling": "l2",
+      "head": {"name": "logistic_regression", "params": {"C": 1.0}}
+    }
+  },
+  "preprocessing": "partb",
+  "metrics": {"primary": "accuracy", "additional": ["f1_macro"]},
+  "seed": 42,
+  "vision": {
+    "weights_root": "../../data/image-models/weights",
+    "cache_dir": "../../runs/image-features",
+    "batch_size": 16,
+    "threads": 4
+  },
+  "output_dir": "../../runs/artifacts"
+}

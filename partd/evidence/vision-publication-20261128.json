@@ -1,0 +1,25 @@
+{
+  "date": "2026-11-28",
+  "scope": "publication-time offline compatibility with latest A",
+  "latest_a_commit": "adcd60842ffef057f80e9a6c2328758830956e3c",
+  "partd_source_sha256": "2c2b7e8de88f33dbd264a34fe1de9a9474c4d3e0c6c3efe20ab131f3268490fd",
+  "latest_a_checks": {
+    "tests": 44,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "raw_xml_sha256": "bca1cf9adf920fc49777168ca12e0ccc87a4b31dd65eb855f268a6b51aa302c3",
+  "previous_d_checks": {
+    "tests": 50,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "raw_xml_sha256": "7d9a1910c9e88358acf5f3f6e7eb41d85b5993aa9701836b270d2a6ddbe9e472"
+  },
+  "partd_runtime_unchanged_from_review": true,
+  "paid_llm_calls": 0,
+  "course_test_set_used": false,
+  "a_image_planner_enabled": false,
+  "preserved_existing_partd_gitattributes": true
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "purpose": "historical local development evidence, not official autonomous SuperAgent scores",
+  "date": "2026-11-27",
+  "source_sha256": "cb55a09191be26b7a7c454bc632e3515679f070d09af17fd0ad51c19fef5cd62",
+  "official_result": false,
+  "a_planner_integrated": false,
+  "llm_api_calls": 0,
+  "fine_tuning": false,
+  "test_set_used_for_training_tuning_or_scoring": false,
+  "successful_head_fits": 74,
+  "manually_aborted_trials": 1,
+  "unlaunched_pruned_trials": 1,
+  "completed_feature_extractions": 4,
+  "validation_counts": {"cifar10_cats_dogs": 2000, "fashion_mnist_small": 1000},
+  "training_counts": {"cifar10_cats_dogs": 8000, "fashion_mnist_small": 5000},
+  "best_tried_validation_accuracy": [
+    {"backbone": "resnet18", "head": "logistic_regression", "cats_dogs": 0.878, "fashion_small": 0.878},
+    {"backbone": "resnet18", "head": "linear_svm", "cats_dogs": 0.8765, "fashion_small": 0.876},
+    {"backbone": "efficientnet_b0", "head": "logistic_regression", "cats_dogs": 0.918, "fashion_small": 0.895},
+    {"backbone": "efficientnet_b0", "head": "linear_svm", "cats_dogs": 0.9215, "fashion_small": 0.898}
+  ],
+  "scope": "fixed official-style development splits from teammate image subsets; results are best tried configurations, not an estimate of unseen-task accuracy",
+  "follow_up": "unified pipeline and policy code is a later source revision; its synthetic acceptance is recorded separately; final reported task scores require complete autonomous runs of the frozen submission version"
+}

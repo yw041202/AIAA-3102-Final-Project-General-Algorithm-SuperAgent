@@ -17,6 +17,15 @@ def predict(artifact_dir, input_csv, output_csv, *, include_probabilities=False,
         raise FileExistsError(f"prediction output already exists: {output_csv}")
     if output_csv == input_csv:
         raise ValueError("prediction output cannot overwrite its input")
+    if (artifact_dir / "image_artifact.json").is_file():
+        if input_csv is not None or config_path is not None or data_root is None:
+            raise ValueError("image artifacts require data_root, no input CSV or config override")
+        from .vision import predict_images
+        result = predict_images(artifact_dir, data_root, output_csv, split=split, partb_root=partb_root,
+                                include_probabilities=include_probabilities)
+        result.update(command="predict", input_source="partb_image", metadata_path=str(metadata_path))
+        write_json(metadata_path, result)
+        return result
     pipeline, manifest = load_artifact(artifact_dir)
     source = manifest.get("input_source", "numeric_csv")
     if source == "partb":
