@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import importlib.metadata
 import joblib
 
 from .common import read_json, sha256, versions, write_json
@@ -21,6 +22,8 @@ def save_artifact(directory, pipeline, metadata, *, preprocessor=None, task_conf
         write_json(directory / "task_config.json", task_config)
         manifest["files"] = {name: sha256(directory / name) for name in
                              ("preprocessor.joblib", "preprocessor.joblib.json", "task_config.json")}
+    if metadata["model"]["name"] == "catboost":
+        manifest["optional_dependencies"] = {"catboost": importlib.metadata.version("catboost")}
     write_json(directory / "artifact.json", manifest)
     result = {"directory": str(directory.resolve()), "model_path": str(model_path.resolve()),
               "manifest_path": str((directory / "artifact.json").resolve()), "model_sha256": manifest["model_sha256"]}
@@ -38,6 +41,9 @@ def load_artifact(directory):
     current = versions(include_partb=manifest.get("input_source") == "partb")
     if manifest["versions"] != current:
         raise ValueError(f"artifact environment differs: expected {manifest['versions']}, current {current}")
+    for name, expected in manifest.get("optional_dependencies", {}).items():
+        if importlib.metadata.version(name) != expected:
+            raise ValueError(f"artifact dependency differs: {name}")
     if manifest.get("input_source") == "partb":
         expected_files = {"preprocessor.joblib", "preprocessor.joblib.json", "task_config.json"}
         if manifest.get("schema_version") != 2 or set(manifest.get("files", {})) != expected_files:

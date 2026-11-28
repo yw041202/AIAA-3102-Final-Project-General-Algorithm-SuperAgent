@@ -1,0 +1,2 @@
+# Optional native categorical boosting; keep the shared team's numerical pins.
+catboost==1.2.8

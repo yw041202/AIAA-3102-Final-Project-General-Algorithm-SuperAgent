@@ -11,7 +11,7 @@ from pathlib import Path
 import numpy as np
 from scipy import sparse
 
-from .common import read_json, resolve_path, sha256, write_json
+from .common import read_json, resolve_path, sha256, source_fingerprint, write_json
 from .data import Dataset
 
 
@@ -58,7 +58,7 @@ def validate_matrix(matrix):
         raise ValueError("B returned non-finite features after preprocessing")
 
 
-def prepare_training(data, base, directory):
+def prepare_training(data, base, directory, model_name=None):
     allowed = {"source", "config_path", "data_root", "partb_root", "preprocess_options"}
     if set(data) - allowed:
         raise ValueError(f"unknown Part B data fields: {sorted(set(data) - allowed)}")
@@ -70,10 +70,24 @@ def prepare_training(data, base, directory):
     if loader.modality not in {"tabular", "text"}:
         raise ValueError("Part D V0.2 supports B tabular/text training; image training remains a later milestone")
     training, validation = loader.load_development()
-    processor = module.Preprocessor(loader.modality, data.get("preprocess_options", {})).fit(training)
+    options = data.get("preprocess_options", {})
+    if not isinstance(options, dict):
+        raise ValueError("preprocess_options must be an object")
+    if model_name in {"catboost", "hist_gradient_boosting"} and loader.modality != "tabular":
+        raise ValueError("native categorical boosting requires tabular data")
+    backend = {"catboost": "catboost", "hist_gradient_boosting": "hist"}.get(model_name)
+    if options.get("analyzer") == "word_char": backend = "word_char"
+    if backend:
+        from .advanced_preprocessing import AdvancedPreprocessor
+        if (backend == "word_char") != (loader.modality == "text"):
+            raise ValueError("candidate preprocessing backend/modality mismatch")
+        processor = AdvancedPreprocessor(loader.modality, options, backend).fit(training)
+    else:
+        processor = module.Preprocessor(loader.modality, options).fit(training)
     X_train, X_val = processor.transform(training.x), processor.transform(validation.x)
-    validate_matrix(X_train)
-    validate_matrix(X_val)
+    if backend not in {"catboost", "hist"}:
+        validate_matrix(X_train)
+        validate_matrix(X_val)
     train = Dataset(X_train, training.y, training.sample_ids.astype(str).tolist(), list(training.x.columns))
     val = Dataset(X_val, validation.y, validation.sample_ids.astype(str).tolist(), list(validation.x.columns))
     audit = loader.audit()
@@ -87,6 +101,7 @@ def prepare_training(data, base, directory):
                   "split_policy": audit["split_policy"]}
     return {"train": train, "validation": val, "processor": processor, "config": config,
             "target": config.get("label_column", "label"), "id_column": config.get("id_column", "sample_id"),
+            "model_parameters": processor.model_parameters() if backend else {},
             "provenance": provenance, "partb": {"modality": loader.modality, "source_sha256": code_fingerprint(module),
             "preprocess_options": processor.config}, "warnings": audit["warnings"], "metric": config["metric"]}
 
@@ -95,6 +110,8 @@ def load_preprocessor(directory, manifest, root=None):
     module = import_partb(root)
     if code_fingerprint(module) != manifest["partb"]["source_sha256"]:
         raise ValueError("Part B source differs from the training artifact; use the recorded version")
+    if manifest["partb"]["preprocess_options"].get("d_backend") and manifest["partd_source_sha256"] != source_fingerprint():
+        raise ValueError("advanced preprocessing D source differs from training")
     processor = module.Preprocessor.load(Path(directory) / "preprocessor.joblib")
     if (processor.columns != manifest["features"] or processor.config != manifest["partb"]["preprocess_options"]
             or processor.modality != manifest["partb"]["modality"]):
@@ -110,5 +127,6 @@ def prepare_prediction(directory, manifest, *, data_root, config_path=None, spli
         raise ValueError("prediction configuration modality/features differ from the saved artifact")
     data = loader.load_prediction(split=split)  # no labels, train loading or fitting
     matrix = processor.transform(data.x)
-    validate_matrix(matrix)
+    if manifest["partb"]["preprocess_options"].get("d_backend") not in {"catboost", "hist"}:
+        validate_matrix(matrix)
     return Dataset(matrix, None, data.sample_ids.astype(str).tolist(), list(data.x.columns)), frame_fingerprint(data)

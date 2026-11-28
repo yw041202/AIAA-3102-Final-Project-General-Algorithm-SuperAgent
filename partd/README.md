@@ -1,10 +1,22 @@
 # Part D 训练验证与独立预测
 
-提供数值、B 表格/文本与可选冻结图像的单候选实验工具，完成训练、指定验证指标、模型保存加载及独立预测，并接入 C 执行器。A 决定实验配置、下一步动作和最终候选。
+提供数值、B 表格/文本与可选冻结图像的单候选实验工具，完成训练、指定验证指标、模型保存加载及独立预测，并接入 C 执行器。A 决定实验配置、下一步动作和最终候选。图像和分类的角色分工统一见 [ABC_HANDOFF.md](ABC_HANDOFF.md)。
 
 图像入口沿用 train/predict，model.name=frozen_vision，可选 ResNet18 或 EfficientNet-B0，以及 LR/SVM 分类头。特征缓存、反馈、可调用搜索建议、权重来源和 A/B/C 对接见 [图像交付说明](VISION.md)。当前 A 版本还需接入图像分支；D/B/C 验收不等于完整 Agent 自主运行。
 
-入口：[图像接口与策略](VISION.md)、[通用交接](HANDOFF.md)、[本次验收](ACCEPTANCE_VISION.md)。原 [A 整合说明](A_QUICKSTART.md)、[节点清单](MILESTONES_20261117.md) 和 [V0.2 验收记录](ACCEPTANCE_20261117.md) 保留为历史记录。
+入口：[ABC 统一对接](ABC_HANDOFF.md)、[分类候选](CANDIDATES.md)、[图像接口与策略](VISION.md)、[通用交接](HANDOFF.md)、[分类发布验收](ACCEPTANCE_CLASSIFICATION.md)。原 [A 整合说明](A_QUICKSTART.md)、[节点清单](MILESTONES_20261117.md)、[V0.2 验收](ACCEPTANCE_20261117.md)、[图像验收](ACCEPTANCE_VISION.md) 保留对应版本的记录。
+
+## 分类扩展与联合特征
+
+在 partd 目录安装基础 B 依赖和可选 CatBoost：
+
+```powershell
+python -m pip install -r requirements-partb.txt -r requirements-native-cpu.txt
+python run_partd.py capabilities
+python examples/candidate_demo.py --output <新的目录> --partb-root <B目录> --partc-root <C目录>
+```
+
+示例自动生成混合类别/数值及文本数据，通过真实 C 进程训练 CatBoost、HGB、联合文本 SVM，保存并复制模型，在无标签与训练文件的根目录预测。图像的独立依赖、固定权重及示例见 VISION.md；所有角色分工统一见 ABC_HANDOFF.md。历史开发分数见 [CLASSIFICATION_RESULTS.md](CLASSIFICATION_RESULTS.md)。
 
 ## 完整 B/D/C 复现
 
@@ -74,8 +86,8 @@ python -m pip install -e . --no-deps --no-build-isolation
 
 ## 支持的能力
 
-- 表格/文本候选：`logistic_regression`、`random_forest`；图像候选 `frozen_vision` 的骨干、LR/SVM 头及参数由请求指定。本次图像交付不包含另行开发的表格/文本模型扩展。
-- 指标：accuracy、balanced_accuracy、f1_macro、precision_macro、recall_macro、roc_auc、log_loss。主指标可配置，结果标明 maximize/minimize。ROC AUC 和 log loss 使用概率；二分类正类为保存的 `classes[1]`。
+- 表格/文本候选：LR、RF、线性/RBF SVM、ComplementNB、MLP、Gradient Boosting；表格原生类别另支持 CatBoost、HistGradientBoosting。图像候选 `frozen_vision` 的骨干、LR/SVM 头及参数由请求指定。运行 `python run_partd.py capabilities` 获取机器可读能力和限制。
+- 指标：accuracy、balanced_accuracy、f1_macro、precision_macro、recall_macro、roc_auc、log_loss。主指标可配置，结果标明 maximize/minimize。log loss 和多分类 ROC AUC 需要概率，二分类 ROC AUC 也可使用决策分数；二分类正类为保存的 `classes[1]`。
 - 默认 numeric 预处理：仅在训练部分拟合的中位数填补；逻辑回归另有标准化。拟合后的处理和分类器作为同一个 Pipeline 保存。
 - partb 模式：调用 B 的加载与 train-only 预处理，保留 CSR，不重复拟合 D 数值处理；保存 B 处理器、来源、任务配置和 D 模型，独立预测仅 load/transform。
 - passthrough 模式：兼容外部已处理的数值 CSV；完整 B 原始输入预测请使用 partb 模式。

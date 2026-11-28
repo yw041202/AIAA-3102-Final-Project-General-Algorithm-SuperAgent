@@ -33,10 +33,16 @@ def main(argv=None):
     image_prediction.add_argument("--batch-size", type=int, default=16)
     image_prediction.add_argument("--include-probabilities", action="store_true")
     commands.add_parser("vision-capabilities")
+    discovery = commands.add_parser("capabilities")
+    discovery.add_argument("--modality", choices=["tabular", "text", "image"])
     commands.add_parser("vision-suggest").add_argument("--request", required=True)
     args = parser.parse_args(argv)
     try:
-        if args.command == "train":
+        if args.command == "capabilities":
+            from .capabilities import capabilities
+            result = {"event": "partd.result", "schema_version": 1, "command": args.command,
+                      "status": "success", "capabilities": capabilities(args.modality)}
+        elif args.command == "train":
             result = train(args.request)
         elif args.command in {"vision-capabilities", "vision-suggest"}:
             from .vision_policy import capabilities, suggest

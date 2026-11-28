@@ -183,7 +183,14 @@
         "name": {
           "enum": [
             "logistic_regression",
-            "random_forest"
+            "random_forest",
+            "linear_svm",
+            "rbf_svm",
+            "complement_nb",
+            "mlp",
+            "gradient_boosting",
+            "catboost",
+            "hist_gradient_boosting"
           ]
         },
         "params": {

@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "task_id": "new_tabular_task", "run_id": "autonomous_001", "experiment_id": "candidate_001",
+  "data": {"source": "partb", "config_path": "../../data/new_task/config.json", "data_root": "../../data/new_task",
+    "partb_root": "../../partb", "preprocess_options": {"encoding": "native", "numeric_columns": []}},
+  "model": {"name": "catboost", "params": {"iterations": 500, "depth": 6, "learning_rate": 0.05}},
+  "preprocessing": "partb", "seed": 42,
+  "metrics": {"primary": "accuracy", "additional": ["f1_macro"]}, "output_dir": "../../runs/artifacts"
+}

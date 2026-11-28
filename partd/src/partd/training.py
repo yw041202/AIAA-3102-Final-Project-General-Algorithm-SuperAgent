@@ -5,43 +5,15 @@ import warnings
 from pathlib import Path
 
 import numpy as np
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.impute import SimpleImputer
-from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
-
 from .artifacts import save_artifact
+from .candidates import build_candidate_pipeline
 from .common import error_result, identifier, now, read_json, resolve_path, sha256, source_fingerprint, versions, write_json
 from .data import load_csv, write_predictions
 from .metrics import DIRECTIONS, calculate_metrics
 
 
 def build_pipeline(model, seed, preprocessing):
-    if not isinstance(model, dict) or set(model) - {"name", "params"}:
-        raise ValueError("model accepts only name and params; hyperparameters belong inside params")
-    params = dict(model.get("params", {}))
-    if "random_state" in params and params["random_state"] != seed:
-        raise ValueError("set random_state through seed; conflicting model parameter")
-    params["random_state"] = seed
-    if model["name"] == "logistic_regression":
-        params.setdefault("max_iter", 1000)
-        estimator = LogisticRegression(**params)
-    elif model["name"] == "random_forest":
-        params.setdefault("n_estimators", 100)
-        params.setdefault("n_jobs", 1)
-        estimator = RandomForestClassifier(**params)
-    else:
-        raise ValueError("model.name must be logistic_regression or random_forest")
-    if preprocessing not in {"numeric", "passthrough"}:
-        raise ValueError("preprocessing must be numeric or passthrough")
-    steps = []
-    if preprocessing == "numeric":
-        steps.append(("imputer", SimpleImputer(strategy="median", keep_empty_features=True)))
-        if model["name"] == "logistic_regression":
-            steps.append(("scaler", StandardScaler()))
-    steps.append(("classifier", estimator))
-    return Pipeline(steps)
+    return build_candidate_pipeline(model, seed, preprocessing)
 
 
 def train(request_path):
@@ -78,7 +50,7 @@ def train(request_path):
             preprocessing = request.get("preprocessing", "partb")
             if preprocessing != "partb":
                 raise ValueError("Part B inputs require preprocessing=partb; D must not fit another numeric preprocessor")
-            prepared = prepare_training(data, request_path.parent, directory)
+            prepared = prepare_training(data, request_path.parent, directory, model_name=request["model"]["name"])
             training, validation = prepared["train"], prepared["validation"]
             target, id_column = prepared["target"], prepared["id_column"]
             provenance = prepared["provenance"]
@@ -118,23 +90,44 @@ def train(request_path):
         seed = request.get("seed", 42)
         if type(seed) is not int or not 0 <= seed < 2**32:
             raise ValueError("seed must be an integer between 0 and 2**32 - 1")
-        pipeline = build_pipeline(request["model"], seed, "passthrough" if prepared else preprocessing)
+        if not isinstance(request["model"], dict) or set(request["model"]) - {"name", "params"}:
+            raise ValueError("model accepts name and params only")
+        model_spec = {"name": request["model"]["name"], "params": dict(request["model"].get("params", {}))}
+        if prepared:
+            for key, value in prepared.get("model_parameters", {}).items():
+                if key in model_spec["params"] and model_spec["params"][key] != value:
+                    raise ValueError("native column metadata conflicts with model parameters")
+                model_spec["params"][key] = value
+        pipeline = build_pipeline(model_spec, seed, "passthrough" if prepared else preprocessing)
+        if "log_loss" in names and not hasattr(pipeline, "predict_proba"):
+            raise ValueError("log_loss requires probabilities; for linear_svm enable params.calibrate, for rbf_svm enable params.probability")
         if preprocessing == "passthrough" and (np.isnan(training.X).any() or np.isnan(validation.X).any()):
             raise ValueError("passthrough inputs must already have missing values handled by B")
         with warnings.catch_warnings(record=True) as caught:
             warnings.simplefilter("always")
             stage = "training"
+            fit_started = time.monotonic()
             pipeline.fit(training.X, training.y)
+            fit_seconds = time.monotonic() - fit_started
         stage = "validation"
+        validation_started = time.monotonic()
         predicted = pipeline.predict(validation.X)
-        probabilities = pipeline.predict_proba(validation.X)
+        probabilities = pipeline.predict_proba(validation.X) if hasattr(pipeline, "predict_proba") else None
+        decision_scores = pipeline.decision_function(validation.X) if probabilities is None and hasattr(pipeline, "decision_function") else None
         classes = pipeline.classes_.tolist()
-        metrics = calculate_metrics(validation.y, predicted, probabilities, classes, names)
+        metrics = calculate_metrics(validation.y, predicted, probabilities, classes, names, decision_scores=decision_scores)
+        validation_seconds = time.monotonic() - validation_started
+        classifier = pipeline.named_steps["classifier"]
+        iterations = getattr(classifier, "n_iter_", None)
+        training_details = {"fit_seconds": fit_seconds, "validation_seconds": validation_seconds,
+                            "classifier": type(classifier).__name__, "has_probabilities": probabilities is not None,
+                            "iterations": np.asarray(iterations).tolist() if iterations is not None else None,
+                            "convergence_warning": any(w.category.__name__ == "ConvergenceWarning" for w in caught)}
         metadata = {**context, "features": training.features, "classes": classes,
                     "target_column": target, "id_column": id_column, "seed": seed,
                     "preprocessing": preprocessing, "model": request["model"], "created_at": now(),
                     "partd_version": "0.2.0", "partd_source_sha256": source_fingerprint(),
-                    "input_source": input_source, "data": provenance}
+                    "input_source": input_source, "data": provenance, "training": training_details}
         if prepared:
             metadata["partb"] = prepared["partb"]
         stage = "artifact_save"
@@ -146,6 +139,7 @@ def train(request_path):
                   "metrics": metrics, "primary_metric": {"name": primary, "direction": DIRECTIONS[primary], "value": metrics[primary]},
                   "artifact": artifact, "data": metadata["data"], "versions": versions(include_partb=bool(prepared)),
                   "input_source": input_source,
+                  "training": training_details,
                   "partd_source_sha256": metadata["partd_source_sha256"],
                   "warnings": [{"category": warning.category.__name__, "message": str(warning.message)} for warning in caught],
                   "data_warnings": prepared["warnings"] if prepared else [],
@@ -153,6 +147,7 @@ def train(request_path):
                   "elapsed_seconds": time.monotonic() - started}
     except Exception as exc:
         result = error_result("train", exc, stage=stage, **context)
+        result["elapsed_seconds"] = time.monotonic() - started
     if directory is not None:
         result["result_path"] = str((directory / "result.json").resolve())
         write_json(directory / "result.json", result)

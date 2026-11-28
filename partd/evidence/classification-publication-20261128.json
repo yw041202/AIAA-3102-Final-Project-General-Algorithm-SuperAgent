@@ -1,0 +1,81 @@
+{
+  "date": "2026-11-28",
+  "scope": "classification publication and image compatibility",
+  "source_sha256": "b41420d36369065b6fba94edea8f88bc12308818b97a18bf4287f406c0dc4db5",
+  "tests": {
+    "tests-classification.xml": {
+      "tests": 64,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "0bea9d8b2845c1888d0adddf05eb38bb855fa0abdb8fe345d6c0cc83677e89ef"
+    },
+    "tests-parta.xml": {
+      "tests": 44,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "d1997fa3f476d05d13195a070517379fb1b977c4f6d0d86a3c3afcc95535df55"
+    },
+    "tests-vision.xml": {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "64569700f41af9e059c00b21e6e50d19f816ad5b9156ae0137baeade7d9fdbc5"
+    }
+  },
+  "total_passed": 113,
+  "skipped": 0,
+  "a_validation_commit": "adcd60842ffef057f80e9a6c2328758830956e3c",
+  "demo": {
+    "status": "success",
+    "source_sha256": "b41420d36369065b6fba94edea8f88bc12308818b97a18bf4287f406c0dc4db5",
+    "official_result": false,
+    "paid_llm_calls": 0,
+    "teacher_test_used": false,
+    "results": [
+      {
+        "model": "catboost",
+        "status": "success",
+        "metrics": {
+          "accuracy": 1.0,
+          "f1_macro": 1.0
+        },
+        "predictions_identical": true,
+        "prediction_inputs_have_labels": false,
+        "prediction_inputs_have_training_files": false
+      },
+      {
+        "model": "hist_gradient_boosting",
+        "status": "success",
+        "metrics": {
+          "accuracy": 1.0,
+          "f1_macro": 1.0
+        },
+        "predictions_identical": true,
+        "prediction_inputs_have_labels": false,
+        "prediction_inputs_have_training_files": false
+      },
+      {
+        "model": "linear_svm",
+        "status": "success",
+        "metrics": {
+          "accuracy": 1.0,
+          "f1_macro": 1.0
+        },
+        "predictions_identical": true,
+        "prediction_inputs_have_labels": false,
+        "prediction_inputs_have_training_files": false
+      }
+    ]
+  },
+  "cli_capabilities_and_request_schemas_checked": true,
+  "a_b_c_source_modified": false,
+  "paid_llm_calls": 0,
+  "teacher_test_used": false,
+  "official_result": false,
+  "runtime_note": "Python 3.12.4 scientific stack; native tests use CatBoost 1.2.8; image tests use torch 2.6.0+cpu / torchvision 0.21.0+cpu",
+  "historical_development_source": "c3597b6e17feb97d5a79089d968d7584b9229ed82bbea285f2f5375b3657966b",
+  "publication_changes_after_development": "capability discovery; reject incompatible native scaling/SVD/encoding/modality; documentation and synthetic acceptance"
+}

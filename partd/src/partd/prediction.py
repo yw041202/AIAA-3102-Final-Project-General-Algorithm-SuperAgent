@@ -41,6 +41,8 @@ def predict(artifact_dir, input_csv, output_csv, *, include_probabilities=False,
                            features=manifest["features"], labeled=False)
         input_hash = sha256(input_csv)
     predicted = pipeline.predict(dataset.X)
+    if include_probabilities and not hasattr(pipeline, "predict_proba"):
+        raise ValueError("this artifact has no probability output; predict labels or train a calibrated model")
     probabilities = pipeline.predict_proba(dataset.X) if include_probabilities else None
     write_predictions(output_csv, dataset.ids, predicted, probabilities)
     result = {"event": "partd.result", "schema_version": 1, "command": "predict", "status": "success",

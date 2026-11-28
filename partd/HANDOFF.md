@@ -1,6 +1,6 @@
 # Part D 交接说明
 
-状态：已有 B 表格/文本接口；新增图像统一 train/predict、冻结特征缓存及搜索建议。图像请求将 model.name 设为 frozen_vision，其完整配置、返回字段、策略与 A/B/C 接入步骤见 [VISION.md](VISION.md)。A 的图像分支尚待接入。下文原有表格/文本契约保持兼容。
+状态：已有 B 表格/文本及冻结图像统一 train/predict，新增原生类别模型与联合文本特征。图像和分类的角色对接统一见 [ABC_HANDOFF.md](ABC_HANDOFF.md)，模型能力见 `capabilities` 命令，具体配置见 [CANDIDATES.md](CANDIDATES.md)、[VISION.md](VISION.md)。A 仍需接入新增能力；下文原有契约保持兼容。
 
 ## 推荐：A → D → B
 
@@ -63,7 +63,7 @@ python run_partd.py predict --artifact <候选目录> --data-root <原始数据�
 - 不接受 test_csv。训练结果中的所有指标都来自 validation_csv。
 - 主指标不存在、无法计算或名称不支持时返回明确失败，不虚构数值。
 - 同一实验目录不重复使用。A 如需重试，应保留原失败记录并给新尝试新的 experiment_id。
-- model 支持 logistic_regression / random_forest，参数遵循相应 scikit-learn 1.4.2 估计器接口。随机性由 seed 控制，冲突的 random_state 被拒绝。
+- model 支持现有 LR/RF，以及 SVM、NB、MLP、GB、CatBoost、HGB 和 frozen_vision。各自限制见 capabilities 与 CANDIDATES.md。随机性由 seed 控制，冲突的随机种子被拒绝。
 
 ## 兼容的数值 CSV 数据边界
 
