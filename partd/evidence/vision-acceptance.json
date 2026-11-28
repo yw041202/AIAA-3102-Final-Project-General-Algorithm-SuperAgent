@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-27",
+  "scope": "D image pipeline and offline A compatibility",
+  "candidate_source_sha256": "2c2b7e8de88f33dbd264a34fe1de9a9474c4d3e0c6c3efe20ab131f3268490fd",
+  "partd_checks": {
+    "tests": 50,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "raw_xml_sha256": "7d9a1910c9e88358acf5f3f6e7eb41d85b5993aa9701836b270d2a6ddbe9e472"
+  },
+  "parta_checks": {
+    "tests": 26,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "raw_xml_sha256": "0624b6dd934bd2608be2db0edce694a97d7b40b65ba26cf5d89b05670974f3d0"
+  },
+  "total_passed": 76,
+  "skipped": 0,
+  "image_environment": {
+    "python": "3.12.4",
+    "torch": "2.6.0+cpu",
+    "torchvision": "0.21.0+cpu",
+    "numpy": "1.26.4",
+    "scikit-learn": "1.4.2",
+    "joblib": "1.4.2",
+    "pandas": "2.2.2",
+    "scipy": "1.13.1",
+    "Pillow": "10.3.0"
+  },
+  "a_regression_environment": "existing non-vision .venv with OpenAI SDK; mock transports, no paid API calls",
+  "demo": {
+    "status": "success",
+    "official_result": false,
+    "test_set_used": false,
+    "candidate_count": 2,
+    "cache_hits": [
+      false,
+      true
+    ],
+    "predictions_identical": true,
+    "prediction_labels_loaded": false,
+    "prediction_fit_called": false,
+    "source_sha256": "2c2b7e8de88f33dbd264a34fe1de9a9474c4d3e0c6c3efe20ab131f3268490fd"
+  },
+  "course_test_set_used": false,
+  "paid_llm_calls": 0,
+  "fine_tuning": false,
+  "a_image_planning_integrated": false,
+  "official_result": false,
+  "publication": {
+    "pushed": false,
+    "remote_pr_updated": false,
+    "scope": "historical publication status at acceptance time on 2026-11-27"
+  },
+  "deployment_follow_up": "C verifies team's target environment; D retrains there; A integrates image planning and runs the final autonomous task loop"
+}

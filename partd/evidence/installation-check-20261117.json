@@ -1,0 +1,20 @@
+{
+  "status": "success",
+  "partd_version": "0.2.0",
+  "source_fingerprint_matches": true,
+  "schema_validated_requests": 6,
+  "source_directory_not_imported": true,
+  "shared_numeric_dependencies": true,
+  "records": [
+    {
+      "modality": "tabular",
+      "n_predictions": 20,
+      "direct_and_c_installed_package_match": true
+    },
+    {
+      "modality": "text",
+      "n_predictions": 20,
+      "direct_and_c_installed_package_match": true
+    }
+  ]
+}

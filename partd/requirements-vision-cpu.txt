@@ -1,0 +1,5 @@
+# Optional frozen image backend; existing tabular/text paths do not import torch.
+# Official CPU wheels. Keep separate from the team's production environment lock.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.6.0+cpu
+torchvision==0.21.0+cpu

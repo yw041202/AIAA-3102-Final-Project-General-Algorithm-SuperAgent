@@ -1,0 +1,358 @@
+{
+  "date": "2026-11-28",
+  "scope": "historical local development, not official autonomous Agent scores",
+  "official_result": false,
+  "audit": {
+    "source_sha256": "c3597b6e17feb97d5a79089d968d7584b9229ed82bbea285f2f5375b3657966b",
+    "official_result": false,
+    "teacher_test_used": false,
+    "llm_calls": 0,
+    "recounted_validation_scores": 94,
+    "verified_model_files": 94,
+    "failures": [],
+    "tests": [
+      {
+        "file": "tests-new.xml",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "file": "tests-partd.xml",
+        "tests": 56,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "file": "tests-parta.xml",
+        "tests": 44,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "file": "tests-vision.xml",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    ],
+    "total_real_fits": 94,
+    "unique_acceptance_checks": 102,
+    "portable_models_verified": 22,
+    "sampled_peak_rss_mib": 438.27,
+    "fit_seconds_total": 1044.891999999997
+  },
+  "environment": {
+    "python": "3.12.4",
+    "numpy": "1.26.4",
+    "scikit-learn": "1.4.2",
+    "joblib": "1.4.2",
+    "pandas": "2.2.2",
+    "scipy": "1.13.1",
+    "Pillow": "10.3.0",
+    "catboost": "1.2.8",
+    "pyarrow": "17.0.0",
+    "source_sha256": "c3597b6e17feb97d5a79089d968d7584b9229ed82bbea285f2f5375b3657966b"
+  },
+  "external_tests": {
+    "adult": {
+      "model": {
+        "name": "catboost",
+        "params": {
+          "iterations": 1200,
+          "depth": 6,
+          "learning_rate": 0.05,
+          "l2_leaf_reg": 5
+        }
+      },
+      "metrics": {
+        "accuracy": 0.8685584423561207,
+        "f1_macro": 0.8058869699452826,
+        "balanced_accuracy": 0.7881481990280818
+      },
+      "n_test": 16281,
+      "exact_feature_overlap_with_development": 10,
+      "novel_inputs_metrics_diagnostic_only": {
+        "accuracy": 0.8685391186774015,
+        "f1_macro": 0.8058848180031553,
+        "balanced_accuracy": 0.7881643784090346
+      },
+      "selection_locked_before_test": true,
+      "further_tuning_after_test": false
+    },
+    "ag_news": {
+      "model": {
+        "name": "linear_svm",
+        "params": {
+          "C": 1.0
+        }
+      },
+      "metrics": {
+        "accuracy": 0.8985526315789474,
+        "f1_macro": 0.8981163488514285,
+        "balanced_accuracy": 0.8985526315789474
+      },
+      "n_test": 7600,
+      "exact_feature_overlap_with_development": 0,
+      "novel_inputs_metrics_diagnostic_only": {
+        "accuracy": 0.8985526315789474,
+        "f1_macro": 0.8981163488514285,
+        "balanced_accuracy": 0.8985526315789474
+      },
+      "selection_locked_before_test": true,
+      "further_tuning_after_test": false
+    },
+    "dry_bean": {
+      "model": {
+        "name": "rbf_svm",
+        "params": {
+          "C": 3.0,
+          "gamma": "scale",
+          "feature_scaling": "standard"
+        }
+      },
+      "metrics": {
+        "accuracy": 0.9256889763779528,
+        "f1_macro": 0.9373218893007268,
+        "balanced_accuracy": 0.9367090578652029
+      },
+      "n_test": 2032,
+      "exact_feature_overlap_with_development": 0,
+      "novel_inputs_metrics_diagnostic_only": {
+        "accuracy": 0.9256889763779528,
+        "f1_macro": 0.9373218893007268,
+        "balanced_accuracy": 0.9367090578652029
+      },
+      "selection_locked_before_test": true,
+      "further_tuning_after_test": false
+    }
+  },
+  "best_tried_seed42_configurations": [
+    {
+      "task": "coupon",
+      "model": "gradient_boosting",
+      "validation_accuracy": "0.7556650246305419",
+      "fit_seconds": "95.42199999999957",
+      "peak_child_rss_mib": "248.4",
+      "feature_options": "{\"encoding\": \"onehot\", \"numeric_columns\": []}",
+      "parameters": "{\"n_estimators\": 1000, \"max_depth\": 8, \"learning_rate\": 0.03, \"min_samples_leaf\": 10, \"subsample\": 0.9}",
+      "experiment_id": "e004_gradient_boosting"
+    },
+    {
+      "task": "coupon",
+      "model": "hist_gradient_boosting",
+      "validation_accuracy": "0.7536945812807881",
+      "fit_seconds": "0.9059999999999491",
+      "peak_child_rss_mib": "163.03",
+      "feature_options": "{\"encoding\": \"native\", \"numeric_columns\": []}",
+      "parameters": "{\"max_iter\": 500, \"learning_rate\": 0.1, \"max_leaf_nodes\": 63, \"l2_regularization\": 2, \"min_samples_leaf\": 10}",
+      "experiment_id": "e011_hist_gradient_boosting"
+    },
+    {
+      "task": "coupon",
+      "model": "catboost",
+      "validation_accuracy": "0.7522167487684729",
+      "fit_seconds": "34.65599999999995",
+      "peak_child_rss_mib": "251.1",
+      "feature_options": "{\"encoding\": \"native\", \"numeric_columns\": []}",
+      "parameters": "{\"iterations\": 1200, \"depth\": 6, \"learning_rate\": 0.05, \"l2_leaf_reg\": 5}",
+      "experiment_id": "e008_catboost"
+    },
+    {
+      "task": "coupon",
+      "model": "rbf_svm",
+      "validation_accuracy": "0.7428571428571429",
+      "fit_seconds": "10.844000000000051",
+      "peak_child_rss_mib": "356.89",
+      "feature_options": "{\"encoding\": \"onehot\", \"numeric_columns\": []}",
+      "parameters": "{\"C\": 3.0, \"gamma\": \"scale\", \"feature_scaling\": \"standard\"}",
+      "experiment_id": "e005_rbf_svm"
+    },
+    {
+      "task": "coupon",
+      "model": "random_forest",
+      "validation_accuracy": "0.738423645320197",
+      "fit_seconds": "12.54699999999957",
+      "peak_child_rss_mib": "224.62",
+      "feature_options": "{\"encoding\": \"onehot\", \"numeric_columns\": []}",
+      "parameters": "{\"n_estimators\": 400, \"min_samples_leaf\": 3, \"n_jobs\": 2}",
+      "experiment_id": "e003_random_forest"
+    },
+    {
+      "task": "adult",
+      "model": "catboost",
+      "validation_accuracy": "0.861",
+      "fit_seconds": "27.60900000000038",
+      "peak_child_rss_mib": "228.56",
+      "feature_options": "{\"encoding\": \"native\", \"numeric_columns\": [\"age\", \"fnlwgt\", \"education_num\", \"capital_gain\", \"capital_loss\", \"hours_per_week\"]}",
+      "parameters": "{\"iterations\": 1200, \"depth\": 6, \"learning_rate\": 0.05, \"l2_leaf_reg\": 5}",
+      "experiment_id": "e007_catboost"
+    },
+    {
+      "task": "adult",
+      "model": "hist_gradient_boosting",
+      "validation_accuracy": "0.861",
+      "fit_seconds": "0.25",
+      "peak_child_rss_mib": "158.36",
+      "feature_options": "{\"encoding\": \"native\", \"numeric_columns\": [\"age\", \"fnlwgt\", \"education_num\", \"capital_gain\", \"capital_loss\", \"hours_per_week\"]}",
+      "parameters": "{\"max_iter\": 600, \"learning_rate\": 0.05, \"max_leaf_nodes\": 15, \"l2_regularization\": 0.1}",
+      "experiment_id": "e008_hist_gradient_boosting"
+    },
+    {
+      "task": "adult",
+      "model": "random_forest",
+      "validation_accuracy": "0.8475",
+      "fit_seconds": "8.936999999999898",
+      "peak_child_rss_mib": "187.66",
+      "feature_options": "{\"encoding\": \"onehot\", \"numeric_columns\": [\"age\", \"fnlwgt\", \"education_num\", \"capital_gain\", \"capital_loss\", \"hours_per_week\"]}",
+      "parameters": "{\"n_estimators\": 400, \"min_samples_leaf\": 3, \"n_jobs\": 2}",
+      "experiment_id": "e003_random_forest"
+    },
+    {
+      "task": "adult",
+      "model": "logistic_regression",
+      "validation_accuracy": "0.8415",
+      "fit_seconds": "0.04700000000048021",
+      "peak_child_rss_mib": "157.3",
+      "feature_options": "{\"encoding\": \"onehot\", \"numeric_columns\": [\"age\", \"fnlwgt\", \"education_num\", \"capital_gain\", \"capital_loss\", \"hours_per_week\"]}",
+      "parameters": "{\"C\": 1.0, \"max_iter\": 2000, \"solver\": \"liblinear\"}",
+      "experiment_id": "e004_logistic_regression"
+    },
+    {
+      "task": "headlines",
+      "model": "linear_svm",
+      "validation_accuracy": "0.6968085106382979",
+      "fit_seconds": "0.43800000000010186",
+      "peak_child_rss_mib": "309.96",
+      "feature_options": "{\"analyzer\": \"word_char\", \"combine\": \"difference\", \"min_df\": 3, \"max_features\": 50000, \"lowercase\": true}",
+      "parameters": "{\"C\": 0.05}",
+      "experiment_id": "e006_linear_svm"
+    },
+    {
+      "task": "headlines",
+      "model": "logistic_regression",
+      "validation_accuracy": "0.6957446808510638",
+      "fit_seconds": "0.6559999999999491",
+      "peak_child_rss_mib": "293.14",
+      "feature_options": "{\"analyzer\": \"word_char\", \"combine\": \"difference\", \"min_df\": 3, \"max_features\": 50000, \"lowercase\": true}",
+      "parameters": "{\"C\": 3.0, \"max_iter\": 2000, \"solver\": \"liblinear\", \"class_weight\": \"balanced\"}",
+      "experiment_id": "e009_logistic_regression"
+    },
+    {
+      "task": "ag_news",
+      "model": "linear_svm",
+      "validation_accuracy": "0.901",
+      "fit_seconds": "0.31199999999989814",
+      "peak_child_rss_mib": "256.65",
+      "feature_options": "{\"analyzer\": \"word\", \"combine\": \"concat\", \"min_df\": 2, \"max_features\": 50000, \"lowercase\": true, \"ngram_range\": [1, 2]}",
+      "parameters": "{\"C\": 1.0}",
+      "experiment_id": "e002_linear_svm"
+    },
+    {
+      "task": "ag_news",
+      "model": "logistic_regression",
+      "validation_accuracy": "0.898",
+      "fit_seconds": "4.875",
+      "peak_child_rss_mib": "412.11",
+      "feature_options": "{\"analyzer\": \"word_char\", \"combine\": \"concat\", \"min_df\": 3, \"max_features\": 50000, \"lowercase\": true, \"char_weight\": 0.3}",
+      "parameters": "{\"C\": 3.0, \"max_iter\": 2000, \"solver\": \"liblinear\"}",
+      "experiment_id": "e010_logistic_regression"
+    },
+    {
+      "task": "ag_news",
+      "model": "complement_nb",
+      "validation_accuracy": "0.8955",
+      "fit_seconds": "0.03099999999994907",
+      "peak_child_rss_mib": "257.75",
+      "feature_options": "{\"analyzer\": \"word\", \"combine\": \"concat\", \"ngram_range\": [1, 2], \"min_df\": 2, \"max_features\": 50000}",
+      "parameters": "{\"alpha\": 0.5}",
+      "experiment_id": "e007_complement_nb"
+    },
+    {
+      "task": "dry_bean",
+      "model": "rbf_svm",
+      "validation_accuracy": "0.9325787401574803",
+      "fit_seconds": "0.31199999999989814",
+      "peak_child_rss_mib": "173.29",
+      "feature_options": "{\"encoding\": \"onehot\", \"numeric_columns\": [\"Area\", \"Perimeter\", \"MajorAxisLength\", \"MinorAxisLength\", \"AspectRation\", \"Eccentricity\", \"ConvexArea\", \"EquivDiameter\", \"Extent\", \"Solidity\", \"roundness\", \"Compactness\", \"ShapeFactor1\", \"ShapeFactor2\", \"ShapeFactor3\", \"ShapeFactor4\"]}",
+      "parameters": "{\"C\": 3.0, \"gamma\": \"scale\", \"feature_scaling\": \"standard\"}",
+      "experiment_id": "e004_rbf_svm"
+    },
+    {
+      "task": "dry_bean",
+      "model": "hist_gradient_boosting",
+      "validation_accuracy": "0.9296259842519685",
+      "fit_seconds": "1.280999999999949",
+      "peak_child_rss_mib": "171.86",
+      "feature_options": "{\"encoding\": \"native\", \"numeric_columns\": [\"Area\", \"Perimeter\", \"MajorAxisLength\", \"MinorAxisLength\", \"AspectRation\", \"Eccentricity\", \"ConvexArea\", \"EquivDiameter\", \"Extent\", \"Solidity\", \"roundness\", \"Compactness\", \"ShapeFactor1\", \"ShapeFactor2\", \"ShapeFactor3\", \"ShapeFactor4\"]}",
+      "parameters": "{\"max_iter\": 500, \"learning_rate\": 0.1, \"max_leaf_nodes\": 63, \"l2_regularization\": 2, \"min_samples_leaf\": 10}",
+      "experiment_id": "e011_hist_gradient_boosting"
+    },
+    {
+      "task": "dry_bean",
+      "model": "catboost",
+      "validation_accuracy": "0.9291338582677166",
+      "fit_seconds": "7.546999999999571",
+      "peak_child_rss_mib": "218.63",
+      "feature_options": "{\"encoding\": \"native\", \"numeric_columns\": [\"Area\", \"Perimeter\", \"MajorAxisLength\", \"MinorAxisLength\", \"AspectRation\", \"Eccentricity\", \"ConvexArea\", \"EquivDiameter\", \"Extent\", \"Solidity\", \"roundness\", \"Compactness\", \"ShapeFactor1\", \"ShapeFactor2\", \"ShapeFactor3\", \"ShapeFactor4\"]}",
+      "parameters": "{\"iterations\": 800, \"depth\": 4, \"learning_rate\": 0.05}",
+      "experiment_id": "e006_catboost"
+    },
+    {
+      "task": "dry_bean",
+      "model": "random_forest",
+      "validation_accuracy": "0.9266732283464567",
+      "fit_seconds": "10.938000000000102",
+      "peak_child_rss_mib": "211.06",
+      "feature_options": "{\"encoding\": \"onehot\", \"numeric_columns\": [\"Area\", \"Perimeter\", \"MajorAxisLength\", \"MinorAxisLength\", \"AspectRation\", \"Eccentricity\", \"ConvexArea\", \"EquivDiameter\", \"Extent\", \"Solidity\", \"roundness\", \"Compactness\", \"ShapeFactor1\", \"ShapeFactor2\", \"ShapeFactor3\", \"ShapeFactor4\"]}",
+      "parameters": "{\"n_estimators\": 400, \"min_samples_leaf\": 3, \"n_jobs\": 2}",
+      "experiment_id": "e003_random_forest"
+    },
+    {
+      "task": "dry_bean",
+      "model": "linear_svm",
+      "validation_accuracy": "0.9153543307086615",
+      "fit_seconds": "0.07800000000042928",
+      "peak_child_rss_mib": "167.3",
+      "feature_options": "{\"encoding\": \"onehot\", \"numeric_columns\": [\"Area\", \"Perimeter\", \"MajorAxisLength\", \"MinorAxisLength\", \"AspectRation\", \"Eccentricity\", \"ConvexArea\", \"EquivDiameter\", \"Extent\", \"Solidity\", \"roundness\", \"Compactness\", \"ShapeFactor1\", \"ShapeFactor2\", \"ShapeFactor3\", \"ShapeFactor4\"]}",
+      "parameters": "{\"C\": 1.0, \"feature_scaling\": \"standard\"}",
+      "experiment_id": "e005_linear_svm"
+    },
+    {
+      "task": "coupon_followup",
+      "model": "hist_gradient_boosting",
+      "validation_accuracy": "0.7551724137931034",
+      "fit_seconds": "1.844000000000051",
+      "peak_child_rss_mib": "161.05",
+      "feature_options": "{\"encoding\": \"native\", \"numeric_columns\": []}",
+      "parameters": "{\"early_stopping\": false, \"max_iter\": 500, \"learning_rate\": 0.05, \"max_leaf_nodes\": 31, \"l2_regularization\": 1}",
+      "experiment_id": "e003_hist_gradient_boosting"
+    },
+    {
+      "task": "coupon_followup",
+      "model": "rbf_svm",
+      "validation_accuracy": "0.7536945812807881",
+      "fit_seconds": "9.0",
+      "peak_child_rss_mib": "355.16",
+      "feature_options": "{\"encoding\": \"onehot\", \"numeric_columns\": []}",
+      "parameters": "{\"C\": 3.0, \"gamma\": \"scale\"}",
+      "experiment_id": "e001_rbf_svm"
+    },
+    {
+      "task": "coupon_followup",
+      "model": "catboost",
+      "validation_accuracy": "0.7438423645320197",
+      "fit_seconds": "53.6880000000001",
+      "peak_child_rss_mib": "324.56",
+      "feature_options": "{\"encoding\": \"native\", \"numeric_columns\": []}",
+      "parameters": "{\"iterations\": 1000, \"depth\": 10, \"learning_rate\": 0.03, \"l2_leaf_reg\": 5, \"max_ctr_complexity\": 2}",
+      "experiment_id": "e006_catboost"
+    }
+  ],
+  "publication_note": "Publication adds discovery and invalid native configuration guards; publication source/test evidence is recorded separately.",
+  "raw_data_models_and_complete_logs_included": false
+}

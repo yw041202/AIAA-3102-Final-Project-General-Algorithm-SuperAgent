@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "primary_metric": "accuracy",
+  "history": [],
+  "elapsed_seconds": 0,
+  "policy": {
+    "backbones": ["resnet18", "efficientnet_b0"],
+    "max_experiments": 8,
+    "patience": 3,
+    "min_gain": 0.001,
+    "slowdown_factor": 2.0
+  }
+}
